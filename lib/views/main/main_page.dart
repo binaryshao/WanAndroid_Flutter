@@ -6,6 +6,7 @@ import 'package:wanandroid_flutter/views/main/navigation_page.dart';
 import 'package:wanandroid_flutter/views/main/knowledge_tree_page.dart';
 import 'package:wanandroid_flutter/views/drawer_page.dart';
 import 'package:wanandroid_flutter/utils/common_utils.dart';
+import 'package:wanandroid_flutter/utils/hint_uitls.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -75,7 +76,7 @@ class _MainPageState extends State<MainPage> {
         automaticallyImplyLeading: true,
         actions: <Widget>[
           IconButton(
-            onPressed: () {},
+            onPressed: () {HintUtils.log('点击了搜索');},
             icon: Icon(Icons.search),
           ),
         ],
@@ -93,7 +94,7 @@ class _MainPageState extends State<MainPage> {
       ),
       body: _pages.elementAt(_selectedIndex),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {HintUtils.log('点击了回到顶部');},
         tooltip: '回到顶部',
         child: Icon(Icons.arrow_upward),
       ),
