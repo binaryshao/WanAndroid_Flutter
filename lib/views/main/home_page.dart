@@ -23,16 +23,19 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    HttpUtils.get(Apis.articles(pageNo)).then((result) {
+    getData();
+  }
+
+  getData() {
+    return HttpUtils.get(Apis.articles(pageNo)).then((result) {
       setState(() {
         _articleList = result['datas'];
-        if (_articleList.length ==0) {
+        if (_articleList.length == 0) {
           _status = Status.Empty;
         }
         _status = Status.Success;
       });
-    })
-    .catchError((error){
+    }).catchError((error) {
       _status = Status.Error;
       _errorMsg = error;
     });
@@ -48,7 +51,9 @@ class _HomePageState extends State<HomePage> {
         ),
         Offstage(
           offstage: _status != Status.Error,
-          child: ErrorView(error: _errorMsg,),
+          child: ErrorView(
+            error: _errorMsg,
+          ),
         ),
         Offstage(
           offstage: _status != Status.Empty,
@@ -67,7 +72,7 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             onRefresh: () {
-              HintUtils.log('刷新中...');
+              return getData();
             },
           ),
         )
