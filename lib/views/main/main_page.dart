@@ -76,7 +76,9 @@ class _MainPageState extends State<MainPage> {
         automaticallyImplyLeading: true,
         actions: <Widget>[
           IconButton(
-            onPressed: () {HintUtils.log('点击了搜索');},
+            onPressed: () {
+              HintUtils.log('点击了搜索');
+            },
             icon: Icon(Icons.search),
           ),
         ],
@@ -92,9 +94,14 @@ class _MainPageState extends State<MainPage> {
           });
         },
       ),
-      body: _pages.elementAt(_selectedIndex),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _pages,
+      ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {HintUtils.log('点击了回到顶部');},
+        onPressed: () {
+          HintUtils.log('点击了回到顶部');
+        },
         tooltip: '回到顶部',
         child: Icon(Icons.arrow_upward),
       ),
