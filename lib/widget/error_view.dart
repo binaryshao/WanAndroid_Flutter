@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class ErrorView extends StatelessWidget {
   final Function retry;
   final String error;
+  final String defaultErrorMsg = '无错误说明...';
 
-  ErrorView({this.error = '无错误说明...', this.retry});
+  ErrorView({this.error, this.retry});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class ErrorView extends StatelessWidget {
           children: <Widget>[
             Text('加载失败 o(╥﹏╥)o'),
             getRetryHint(),
-            Text(error),
+            Text((error == null || error.isEmpty) ? defaultErrorMsg : error),
           ],
         ),
       ),

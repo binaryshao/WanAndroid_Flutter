@@ -26,8 +26,8 @@ class _HomePageState extends State<HomePage> {
     getData();
   }
 
-  getData() {
-    return HttpUtils.get(Apis.articles(pageNo)).then((result) {
+  Future getData() async {
+    HttpUtils.get(Apis.articles(pageNo)).then((result) {
       setState(() {
         _articleList = result['datas'];
         if (_articleList.length == 0) {
@@ -71,9 +71,7 @@ class _HomePageState extends State<HomePage> {
                 );
               },
             ),
-            onRefresh: () {
-              return getData();
-            },
+            onRefresh: getData,
           ),
         )
       ],
