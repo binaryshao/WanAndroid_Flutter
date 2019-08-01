@@ -133,6 +133,5 @@ class _ArticleItemViewState extends State<ArticleItemView> {
         ),
       ),
     );
-    ;
   }
 }

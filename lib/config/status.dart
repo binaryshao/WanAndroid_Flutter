@@ -4,3 +4,10 @@ enum Status {
   Empty,
   Success,
 }
+
+enum MoreStatus {
+  Init,
+  Loading,
+  Error,
+  End,
+}
