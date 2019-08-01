@@ -18,7 +18,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List _articleList = List();
   int pageNo = 0;
-  int _status = Status.Loading;
+  Status _status = Status.Loading;
   String _errorMsg;
 
   @override
