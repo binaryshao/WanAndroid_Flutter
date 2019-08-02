@@ -55,13 +55,19 @@ class _HomePageState extends State<HomePage> {
         }
         _status = Status.Success;
       });
-    }).catchError((error) {
-      if (isLoadingMore) {
-        _moreStatus = MoreStatus.Error;
-      } else {
-        _status = Status.Error;
-      }
-      _errorMsg = error;
+    }).catchError((e) {
+      setState(() {
+        if (isLoadingMore) {
+          _moreStatus = MoreStatus.Error;
+        } else {
+          _status = Status.Error;
+        }
+        if (e is Exception) {
+          _errorMsg = e.toString();
+        } else if (e is String) {
+          _errorMsg = e;
+        }
+      });
     });
   }
 

@@ -14,7 +14,9 @@ class LoadingView extends StatelessWidget {
               padding: EdgeInsets.only(left: 20),
               child: Text(
                 '加载中...',
-                style: TextStyle(),
+                style: TextStyle(
+                  fontSize: 18,
+                ),
               ),
             ),
           ],

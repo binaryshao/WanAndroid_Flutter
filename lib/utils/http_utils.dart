@@ -25,8 +25,6 @@ Future proceedResponse(url, Future future) {
         HintUtils.log("业务失败：$jsonResponse['errorMsg']");
       }
     }
-  }).catchError((error) {
-    HintUtils.log('请求出错：$error');
   });
 }
 

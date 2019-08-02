@@ -12,13 +12,21 @@ class ErrorView extends StatelessWidget {
     return InkWell(
       onTap: retry,
       child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text('加载失败 o(╥﹏╥)o'),
-            getRetryHint(),
-            Text((error == null || error.isEmpty) ? defaultErrorMsg : error),
-          ],
+        child: Container(
+          padding: EdgeInsets.all(10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                '加载失败 o(╥﹏╥)o',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+              getRetryHint(),
+              Text((error == null || error.isEmpty) ? defaultErrorMsg : error),
+            ],
+          ),
         ),
       ),
     );
