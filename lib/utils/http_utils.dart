@@ -14,7 +14,9 @@ Future proceedResponse(url, Future future) {
       var jsonResponse = convert.jsonDecode(response.body);
       return Future.value(jsonResponse);
     } else {
-      HintUtils.log('请求失败 ${response.statusCode}');
+      var msg = '请求失败 ${response.statusCode}';
+      HintUtils.log(msg);
+      return Future.error(msg);
     }
   }).then((jsonResponse) {
     HintUtils.log('$url json返回如下：\n$jsonResponse');
@@ -22,7 +24,9 @@ Future proceedResponse(url, Future future) {
       if (jsonResponse['errorCode'] == 0) {
         return jsonResponse['data'];
       } else {
-        HintUtils.log("业务失败：$jsonResponse['errorMsg']");
+        var msg = "业务失败：$jsonResponse['errorMsg']";
+        HintUtils.log(msg);
+        return Future.error(msg);
       }
     }
   });

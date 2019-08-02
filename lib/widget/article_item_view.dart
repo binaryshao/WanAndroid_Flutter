@@ -13,13 +13,13 @@ class ArticleItemView extends StatefulWidget {
 }
 
 class _ArticleItemViewState extends State<ArticleItemView> {
-  Widget getFresh(fresh) {
-    if (fresh) {
+  Widget getFresh(isOk, text, color) {
+    if (isOk) {
       return Container(
           margin: EdgeInsets.only(left: 10),
-          child: Text('新',
+          child: Text('$text',
               style: TextStyle(
-                color: Colors.redAccent,
+                color: color,
               )));
     }
     return Container();
@@ -68,13 +68,11 @@ class _ArticleItemViewState extends State<ArticleItemView> {
                 Text(
                   widget.item['author'],
                 ),
-                getFresh(widget.item['fresh']),
-                Container(
-                  margin: EdgeInsets.only(left: 10),
-                  child: Text(
-                    '置顶',
-                  ),
-                ),
+                getFresh(widget.item['fresh'], "新", Colors.redAccent),
+                getFresh(
+                    widget.item['isTop'] != null ? widget.item['isTop'] : false,
+                    "置顶",
+                    Colors.deepPurple),
                 Expanded(
                   child: Text(
                     widget.item['niceDate'],

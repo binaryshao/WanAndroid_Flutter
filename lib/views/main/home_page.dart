@@ -6,7 +6,18 @@ import 'package:wanandroid_flutter/widget/refreshable_list.dart';
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return RefreshableList(Apis.articles, _buildItem);
+    return RefreshableList(
+      [
+        Apis.articles,
+      ],
+      [
+        'datas',
+      ],
+      [
+        '',
+      ],
+      _buildItem,
+    );
   }
 
   _buildItem(item) {
