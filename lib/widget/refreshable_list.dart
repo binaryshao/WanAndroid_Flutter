@@ -8,14 +8,15 @@ import 'package:wanandroid_flutter/config/status.dart';
 import 'package:wanandroid_flutter/config/tag.dart';
 
 /// 支持请求多个接口
-/// 只有一个接口能分页，默认为 [_requestPaths] 中最后一个接口
+/// 只有一个接口能分页，默认为 [_requests] 中最后一个接口
 /// 该分页接口下标保存在 [pageNoUserIndex]，不可配置
 /// 刷新时，请求所有接口
 /// 上拉加载更多时，只请求分页接口
 /// 除了 [banner], 其余配置都是业务无关
 class RefreshableList extends StatefulWidget {
-  /// 支持传入多个接口路径
-  final List<Function> _requestPaths;
+  /// 支持传入多个网络请求 [Future]
+  /// 如果最后是分页接口，请传入 [Function]，因为页码在本控件内部维护
+  final List<dynamic> _requests;
 
   /// 每个接口数据中的列表的 key，根据 key 获取每个接口返回的列表
   final List<String> dataKeys;
@@ -33,7 +34,7 @@ class RefreshableList extends StatefulWidget {
   final pageCountKey;
 
   RefreshableList(
-    this._requestPaths,
+    this._requests,
     this.dataKeys,
     this.tags,
     this._buildItem, {
@@ -55,13 +56,13 @@ class _RefreshableListState extends State<RefreshableList> {
   String _errorMsg;
   ScrollController _scrollController = ScrollController();
 
-  /// 分页接口的下标, 默认为 [_requestPaths] 中最后一个接口
+  /// 分页接口的下标, 默认为 [_requests] 中最后一个接口
   var pageNoUserIndex;
 
   @override
   void initState() {
     super.initState();
-    pageNoUserIndex = widget._requestPaths.length - 1;
+    pageNoUserIndex = widget._requests.length - 1;
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
@@ -75,11 +76,11 @@ class _RefreshableListState extends State<RefreshableList> {
 
   getAllFutures() {
     var _futures = List<Future<dynamic>>();
-    for (int i = 0; i < widget._requestPaths.length; i++) {
-      var path = pageNoUserIndex == i
-          ? widget._requestPaths[i](_pageNo)
-          : widget._requestPaths[i]();
-      _futures.add(HttpUtils.get(path));
+    for (int i = 0; i < widget._requests.length; i++) {
+      var request = pageNoUserIndex == i
+          ? widget._requests[i](_pageNo)
+          : widget._requests[i];
+      _futures.add(request);
     }
     return _futures;
   }
@@ -126,7 +127,7 @@ class _RefreshableListState extends State<RefreshableList> {
         });
       });
     } else {
-      HttpUtils.get(widget._requestPaths[pageNoUserIndex](_pageNo))
+      HttpUtils.get(widget._requests[pageNoUserIndex](_pageNo))
           .then((result) {
         setData(result[widget.pageCountKey], setMoreResultTag(result), true);
       }).catchError((e) {

@@ -9,8 +9,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return RefreshableList(
       [
-        Apis.banner,
-        Apis.topArticles,
+        Apis.banner(),
+        Apis.topArticles(),
         Apis.articles,
       ],
       [

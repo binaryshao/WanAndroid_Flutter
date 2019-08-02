@@ -1,13 +1,15 @@
+import 'package:wanandroid_flutter/utils/http_utils.dart';
+
 class Apis {
   static articles(pageNo) {
-    return 'article/list/$pageNo/json';
+    return HttpUtils.get('article/list/$pageNo/json');
   }
 
   static topArticles() {
-    return 'article/top/json';
+    return HttpUtils.get('article/top/json');
   }
 
   static banner() {
-    return 'banner/json';
+    return HttpUtils.get('banner/json');
   }
 }
