@@ -32,6 +32,9 @@ class RefreshableList extends StatefulWidget {
   /// 用于判断分页接口是否还有数据的 key
   final pageCountKey;
 
+  /// 是否可以下拉刷新
+  final refreshable;
+
   RefreshableList(
     this._requests,
     this.dataKeys,
@@ -39,6 +42,7 @@ class RefreshableList extends StatefulWidget {
     this._buildItem, {
     this.initPageNo = 0,
     this.pageCountKey = 'pageCount',
+    this.refreshable = true,
   });
 
   @override
@@ -57,19 +61,24 @@ class _RefreshableListState extends State<RefreshableList> {
 
   /// 分页接口的下标, 默认为 [_requests] 中最后一个接口
   var pageNoUserIndex;
+  bool isMoreEnabled = true;
 
   @override
   void initState() {
     super.initState();
     pageNoUserIndex = widget._requests.length - 1;
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        if (_moreStatus == MoreStatus.Init || _moreStatus == MoreStatus.Error) {
-          loadMore();
+    isMoreEnabled = widget._requests[pageNoUserIndex] is Function;
+    if (isMoreEnabled) {
+      _scrollController.addListener(() {
+        if (_scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent) {
+          if (_moreStatus == MoreStatus.Init ||
+              _moreStatus == MoreStatus.Error) {
+            loadMore();
+          }
         }
-      }
-    });
+      });
+    }
     getData();
   }
 
@@ -207,42 +216,53 @@ class _RefreshableListState extends State<RefreshableList> {
         ),
         Offstage(
           offstage: _status != Status.Success,
-          child: RefreshIndicator(
-            child: ListView.separated(
-              controller: _scrollController,
-              itemCount: _dataList.length + 1,
-              itemBuilder: (context, index) {
-                if (index == _dataList.length) {
-                  switch (_moreStatus) {
-                    case MoreStatus.Init:
-                      return Container();
-                      break;
-                    case MoreStatus.Loading:
-                      return LoadingView();
-                      break;
-                    case MoreStatus.Error:
-                      return ErrorView(
-                        error: _errorMsg,
-                        retry: loadMore,
-                      );
-                      break;
-                    case MoreStatus.End:
-                      return EndView();
-                      break;
-                  }
-                }
-                return widget._buildItem(_dataList.elementAt(index));
-              },
-              separatorBuilder: (BuildContext context, int index) {
-                return Divider(
-                  height: 0,
-                );
-              },
-            ),
-            onRefresh: getData,
-          ),
+          child: selectList(),
         )
       ],
+    );
+  }
+
+  selectList() {
+    if (widget.refreshable) {
+      return RefreshIndicator(
+        child: getList(),
+        onRefresh: getData,
+      );
+    }
+    return getList();
+  }
+
+  getList() {
+    return ListView.separated(
+      controller: _scrollController,
+      itemCount: _dataList.length + (isMoreEnabled ? 1 : 0),
+      itemBuilder: (context, index) {
+        if (isMoreEnabled && index == _dataList.length) {
+          switch (_moreStatus) {
+            case MoreStatus.Init:
+              return Container();
+              break;
+            case MoreStatus.Loading:
+              return LoadingView();
+              break;
+            case MoreStatus.Error:
+              return ErrorView(
+                error: _errorMsg,
+                retry: loadMore,
+              );
+              break;
+            case MoreStatus.End:
+              return EndView();
+              break;
+          }
+        }
+        return widget._buildItem(_dataList.elementAt(index));
+      },
+      separatorBuilder: (BuildContext context, int index) {
+        return Divider(
+          height: 0,
+        );
+      },
     );
   }
 }
