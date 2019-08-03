@@ -3,7 +3,6 @@ import 'package:wanandroid_flutter/widget/empty_view.dart';
 import 'package:wanandroid_flutter/widget/end_view.dart';
 import 'package:wanandroid_flutter/widget/error_view.dart';
 import 'package:wanandroid_flutter/widget/loading_view.dart';
-import 'package:wanandroid_flutter/utils/http_utils.dart';
 import 'package:wanandroid_flutter/config/status.dart';
 import 'package:wanandroid_flutter/config/tag.dart';
 
@@ -78,7 +77,9 @@ class _RefreshableListState extends State<RefreshableList> {
     var _futures = List<Future<dynamic>>();
     for (int i = 0; i < widget._requests.length; i++) {
       var request = pageNoUserIndex == i
-          ? widget._requests[i](_pageNo)
+          ? widget._requests[i] is Function
+              ? widget._requests[i](_pageNo)
+              : widget._requests[i]
           : widget._requests[i];
       _futures.add(request);
     }
@@ -127,8 +128,7 @@ class _RefreshableListState extends State<RefreshableList> {
         });
       });
     } else {
-      HttpUtils.get(widget._requests[pageNoUserIndex](_pageNo))
-          .then((result) {
+      widget._requests[pageNoUserIndex](_pageNo).then((result) {
         setData(result[widget.pageCountKey], setMoreResultTag(result), true);
       }).catchError((e) {
         setState(() {
