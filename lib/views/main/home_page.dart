@@ -3,6 +3,7 @@ import 'package:wanandroid_flutter/utils/apis.dart';
 import 'package:wanandroid_flutter/widget/article_item_view.dart';
 import 'package:wanandroid_flutter/widget/refreshable_list.dart';
 import 'package:wanandroid_flutter/config/tag.dart';
+import 'package:wanandroid_flutter/widget/home_banner.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -29,15 +30,11 @@ class HomePage extends StatelessWidget {
 
   _buildItem(item) {
     if (item is List) {
-      return Container(
-        padding: EdgeInsets.all(50),
-        child: Text(
-          'banner 待展示...',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 20,
-          ),
-        ),
+      return HomeBanner(
+        item,
+        (item) {
+          print("点击了 banner : ${item['title']}");
+        },
       );
     }
     switch (item['localTag']) {
