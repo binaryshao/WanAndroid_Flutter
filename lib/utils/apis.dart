@@ -12,4 +12,14 @@ class Apis {
   static banner() {
     return HttpUtils.get('banner/json');
   }
+
+  static wxChapters() {
+    return HttpUtils.get('wxarticle/chapters/json');
+  }
+
+  static wxArticles(chapterId) {
+    return (pageNo){
+      return HttpUtils.get('wxarticle/list/$chapterId/$pageNo/json');
+    };
+  }
 }

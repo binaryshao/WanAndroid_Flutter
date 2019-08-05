@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:wanandroid_flutter/widget/article_tab_page.dart';
+import 'package:wanandroid_flutter/utils/apis.dart';
 
-class WechatPage extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _WechatPageState();
-}
+class WechatPage extends StatelessWidget {
 
-class _WechatPageState extends State<WechatPage> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        '公众号',
-      ),
-    );
+    return ArticleTabPage(Apis.wxChapters(), null);
   }
 }
