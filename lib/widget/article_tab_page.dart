@@ -114,7 +114,7 @@ class _ArticleTabState extends State<ArticleTabPage> {
 
   Widget _buildPage(item) {
     return RefreshableList(
-      [Apis.wxArticles(item['id'])],
+      [Apis.chapterArticles(item['id'])],
       ['datas'],
       [''],
       _buildItem,

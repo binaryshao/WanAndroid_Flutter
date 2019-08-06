@@ -17,9 +17,13 @@ class Apis {
     return HttpUtils.get('wxarticle/chapters/json');
   }
 
-  static wxArticles(chapterId) {
-    return (pageNo){
+  static chapterArticles(chapterId) {
+    return (pageNo) {
       return HttpUtils.get('wxarticle/list/$chapterId/$pageNo/json');
     };
+  }
+
+  static projectChapters() {
+    return HttpUtils.get('project/tree/json');
   }
 }
