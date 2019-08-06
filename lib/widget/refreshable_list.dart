@@ -170,8 +170,9 @@ class _RefreshableListState extends State<RefreshableList>
       }
       if (_dataList.length == 0) {
         _status = Status.Empty;
+      } else {
+        _status = Status.Success;
       }
-      _status = Status.Success;
     });
   }
 

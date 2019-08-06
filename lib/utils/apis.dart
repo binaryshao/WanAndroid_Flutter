@@ -30,4 +30,8 @@ class Apis {
   static knowledgeTree() {
     return HttpUtils.get('tree/json');
   }
+
+  static Future navigation() {
+    return HttpUtils.get('navi/json');
+  }
 }
