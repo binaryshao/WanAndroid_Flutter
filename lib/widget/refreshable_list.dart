@@ -51,7 +51,7 @@ class RefreshableList extends StatefulWidget {
   }
 }
 
-class _RefreshableListState extends State<RefreshableList> {
+class _RefreshableListState extends State<RefreshableList>  with AutomaticKeepAliveClientMixin {
   List<dynamic> _dataList = List();
   int _pageNo;
   Status _status = Status.Loading;
@@ -62,6 +62,9 @@ class _RefreshableListState extends State<RefreshableList> {
   /// 分页接口的下标, 默认为 [_requests] 中最后一个接口
   var pageNoUserIndex;
   bool isMoreEnabled = true;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {

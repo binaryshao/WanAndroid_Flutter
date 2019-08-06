@@ -16,18 +16,22 @@ class ArticleTabPage extends StatefulWidget {
   State<StatefulWidget> createState() => _ArticleTabState();
 }
 
-class _ArticleTabState extends State<ArticleTabPage> {
+class _ArticleTabState extends State<ArticleTabPage>{
   bool isLoading = true;
   bool isEmpty = false;
   bool isError = false;
   String errorInfo = "";
+  Future request;
+  List data;
 
   @override
   void initState() {
     super.initState();
-    if (widget.request != null) {
+    request = widget.request;
+    data = widget.data;
+    if (request != null) {
       getData();
-    } else if (widget.data != null && widget.data.length > 0) {
+    } else if (data != null && data.length > 0) {
       isLoading = false;
       setState(() {});
     } else {
@@ -39,10 +43,10 @@ class _ArticleTabState extends State<ArticleTabPage> {
   }
 
   getData() {
-    widget.request.then((result) {
+    request.then((result) {
       isLoading = false;
       isEmpty = result == null;
-      widget.data = result;
+      data = result;
       setState(() {});
     }).catchError((e) {
       isLoading = false;
@@ -61,7 +65,7 @@ class _ArticleTabState extends State<ArticleTabPage> {
   }
 
   retry() {
-    if (widget.request != null) {
+    if (request != null) {
       setState(() {
         isLoading = true;
       });
@@ -84,13 +88,13 @@ class _ArticleTabState extends State<ArticleTabPage> {
       );
     }
     return DefaultTabController(
-      length: widget.data.length,
+      length: data.length,
       child: Column(
         children: <Widget>[
           Container(
             color: Theme.of(context).primaryColor,
             child: TabBar(
-              tabs: widget.data.map((item) {
+              tabs: data.map((item) {
                 return Tab(
                   text: item['name'],
                 );
@@ -98,13 +102,13 @@ class _ArticleTabState extends State<ArticleTabPage> {
               isScrollable: true,
               indicatorSize: TabBarIndicatorSize.label,
               labelColor: Colors.white,
-              labelStyle: TextStyle(fontSize: 20),
+              labelStyle: TextStyle(fontSize: 18),
               indicatorColor: Colors.white,
             ),
           ),
           Expanded(
             child: TabBarView(
-              children: widget.data.map(_buildPage).toList(),
+              children: data.map(_buildPage).toList(),
             ),
           ),
         ],
