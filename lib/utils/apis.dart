@@ -26,4 +26,8 @@ class Apis {
   static projectChapters() {
     return HttpUtils.get('project/tree/json');
   }
+
+  static knowledgeTree() {
+    return HttpUtils.get('tree/json');
+  }
 }

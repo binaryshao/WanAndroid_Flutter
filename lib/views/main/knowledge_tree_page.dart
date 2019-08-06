@@ -1,16 +1,67 @@
 import 'package:flutter/material.dart';
+import 'package:wanandroid_flutter/widget/refreshable_list.dart';
+import 'package:wanandroid_flutter/utils/apis.dart';
+import 'dart:math';
 
-class KnowledgeTreePage extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _KnowledgeTreePageState();
-}
+const colors = [
+  Colors.orange,
+  Colors.green,
+  Colors.deepOrange,
+  Colors.deepPurple,
+  Colors.pink,
+  Colors.blue,
+];
 
-class _KnowledgeTreePageState extends State<KnowledgeTreePage> {
+class KnowledgeTreePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        '知识体系',
+    return RefreshableList(
+      [Apis.knowledgeTree()],
+      [''],
+      [''],
+      _buildItem,
+      divider: (index) {
+        return Container(
+          height: 20,
+        );
+      },
+    );
+  }
+
+  _buildItem(item) {
+    return InkWell(
+      onTap: () {
+      },
+      child: Container(
+        color: Color(0x6FECEFF6),
+        padding: EdgeInsets.all(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              item['name'],
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 10),
+              child: Wrap(
+                children: item['children'].map<Widget>((value) {
+                  var color = colors[Random().nextInt(colors.length - 1)];
+                  return Text(
+                    value['name'],
+                    style: TextStyle(fontSize: 16, color: color),
+                  );
+                }).toList(),
+                spacing: 10,
+                runSpacing: 10,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
