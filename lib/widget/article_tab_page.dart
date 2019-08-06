@@ -90,6 +90,7 @@ class _ArticleTabState extends State<ArticleTabPage>{
     return DefaultTabController(
       length: data.length,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Container(
             color: Theme.of(context).primaryColor,

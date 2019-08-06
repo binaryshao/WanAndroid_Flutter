@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/widget/refreshable_list.dart';
 import 'package:wanandroid_flutter/utils/apis.dart';
 import 'dart:math';
+import 'package:flutter/cupertino.dart';
+import 'package:wanandroid_flutter/views/knowledge_page.dart';
 
 const colors = [
   Colors.orange,
@@ -13,8 +15,11 @@ const colors = [
 ];
 
 class KnowledgeTreePage extends StatelessWidget {
+  BuildContext _context;
+
   @override
   Widget build(BuildContext context) {
+    _context = context;
     return RefreshableList(
       [Apis.knowledgeTree()],
       [''],
@@ -31,6 +36,11 @@ class KnowledgeTreePage extends StatelessWidget {
   _buildItem(item) {
     return InkWell(
       onTap: () {
+        Navigator.of(_context).push(CupertinoPageRoute(
+            builder: (context) => KnowledgePage(
+                  item['name'],
+                  item['children'],
+                )));
       },
       child: Container(
         color: Color(0x6FECEFF6),
