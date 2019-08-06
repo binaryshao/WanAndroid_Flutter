@@ -31,12 +31,10 @@ class _ArticleItemViewState extends State<ArticleItemView> {
         url,
         width: 120,
         height: 90,
+        fit: BoxFit.cover,
       );
     }
-    return Container(
-      width: 0,
-      height: 0,
-    );
+    return Container();
   }
 
   Widget geDesc(String desc) {
@@ -87,21 +85,25 @@ class _ArticleItemViewState extends State<ArticleItemView> {
                 children: <Widget>[
                   getPic(widget.item['envelopePic']),
                   Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          widget.item['title'],
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
+                    child: Container(
+                      margin: EdgeInsets.only(
+                          left: widget.item['envelopePic'].isNotEmpty ? 10 : 0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            widget.item['title'],
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                            ),
                           ),
-                        ),
-                        geDesc(widget.item['desc']),
-                      ],
+                          geDesc(widget.item['desc']),
+                        ],
+                      ),
                     ),
                   )
                 ],
@@ -118,11 +120,14 @@ class _ArticleItemViewState extends State<ArticleItemView> {
                   onTap: () {
                     HintUtils.log('收藏+1');
                   },
-                  child: IconButton(
-                    icon: Icon(Icons.star_border),
-                    color: Colors.black54,
-                    padding: EdgeInsets.all(2),
-                    onPressed: () {},
+                  child: Container(
+                    height: 24,
+                    child: IconButton(
+                      icon: Icon(Icons.star_border),
+                      color: Colors.black54,
+                      padding: EdgeInsets.all(0),
+                      onPressed: () {},
+                    ),
                   ),
                 ),
               ],
