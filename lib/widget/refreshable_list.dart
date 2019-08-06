@@ -5,6 +5,7 @@ import 'package:wanandroid_flutter/widget/error_view.dart';
 import 'package:wanandroid_flutter/widget/loading_view.dart';
 import 'package:wanandroid_flutter/config/status.dart';
 import 'package:wanandroid_flutter/config/tag.dart';
+import 'package:wanandroid_flutter/utils/hint_uitls.dart';
 
 /// 支持请求多个接口
 /// 只有一个接口能分页，默认为 [_requests] 中最后一个接口
@@ -51,7 +52,8 @@ class RefreshableList extends StatefulWidget {
   }
 }
 
-class _RefreshableListState extends State<RefreshableList>  with AutomaticKeepAliveClientMixin {
+class _RefreshableListState extends State<RefreshableList>
+    with AutomaticKeepAliveClientMixin {
   List<dynamic> _dataList = List();
   int _pageNo;
   Status _status = Status.Loading;
@@ -131,8 +133,10 @@ class _RefreshableListState extends State<RefreshableList>  with AutomaticKeepAl
     if (!isLoadingMore) {
       _pageNo = widget.initPageNo;
       Future.wait(getAllFutures()).then((results) {
-        setData(results[pageNoUserIndex][widget.pageCountKey],
-            setResultTags(results), false);
+        setData(
+            isMoreEnabled ? results[pageNoUserIndex][widget.pageCountKey] : 0,
+            setResultTags(results),
+            false);
       }).catchError((e) {
         setState(() {
           _status = Status.Error;
@@ -153,8 +157,8 @@ class _RefreshableListState extends State<RefreshableList>  with AutomaticKeepAl
 
   setData(pageCount, results, isLoadMore) {
     setState(() {
-      _moreStatus =
-          (_pageNo + 1) >= pageCount ? MoreStatus.End : MoreStatus.Init;
+      var pageNow = widget.initPageNo == 0 ? _pageNo + 1 : _pageNo;
+      _moreStatus = pageNow >= pageCount ? MoreStatus.End : MoreStatus.Init;
       _pageNo++;
       if (isLoadMore) {
         _dataList.addAll(results);
@@ -169,11 +173,13 @@ class _RefreshableListState extends State<RefreshableList>  with AutomaticKeepAl
   }
 
   setError(e) {
+    HintUtils.log('发生错误：$e');
     if (e is Exception) {
       _errorMsg = e.toString();
     } else if (e is String) {
       _errorMsg = e;
     }
+    _errorMsg = e.toString();
   }
 
   loadMore() {
