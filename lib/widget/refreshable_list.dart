@@ -36,6 +36,8 @@ class RefreshableList extends StatefulWidget {
   /// 是否可以下拉刷新
   final refreshable;
 
+  final Function divider;
+
   RefreshableList(
     this._requests,
     this.dataKeys,
@@ -44,6 +46,7 @@ class RefreshableList extends StatefulWidget {
     this.initPageNo = 0,
     this.pageCountKey = 'pageCount',
     this.refreshable = true,
+    this.divider,
   });
 
   @override
@@ -268,6 +271,9 @@ class _RefreshableListState extends State<RefreshableList>
         return widget._buildItem(_dataList.elementAt(index));
       },
       separatorBuilder: (BuildContext context, int index) {
+        if (widget.divider != null) {
+          return widget.divider(index);
+        }
         return Divider(
           height: 0,
         );
