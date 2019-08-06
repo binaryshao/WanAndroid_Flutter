@@ -36,10 +36,12 @@ class _MainPageState extends State<MainPage> {
     _Item('知识体系', 'ic_dashboard'),
   ];
   List<BottomNavigationBarItem> bottomItemList;
+  PageController _pageController;
 
   @override
   void initState() {
     super.initState();
+    _pageController = PageController(initialPage: _selectedIndex);
     if (bottomItemList == null) {
       bottomItemList = _bottomItems
           .map((item) => BottomNavigationBarItem(
@@ -91,12 +93,14 @@ class _MainPageState extends State<MainPage> {
         onTap: (int index) {
           setState(() {
             _selectedIndex = index;
+            _pageController.jumpToPage(_selectedIndex);
           });
         },
       ),
-      body: IndexedStack(
-        index: _selectedIndex,
+      body: PageView(
         children: _pages,
+        controller: _pageController,
+        physics: NeverScrollableScrollPhysics(),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
