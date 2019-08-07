@@ -100,7 +100,7 @@ class _ArticleItemViewState extends State<ArticleItemView> {
                             maxLines: 1,
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 18,
+                              fontSize: 16,
                             ),
                           ),
                           geDesc(widget.item['desc']),

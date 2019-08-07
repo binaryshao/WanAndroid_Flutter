@@ -15,12 +15,22 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  String keyword;
+  final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: TextField(
+          controller: _controller,
+          cursorColor: Colors.white,
+          onSubmitted: (value) {
+            search(value);
+          },
+          decoration: InputDecoration(
+            hintText: '请输入搜索内容...',
+          ),
+        ),
         actions: <Widget>[
           IconButton(
             icon: Icon(
@@ -28,7 +38,7 @@ class _SearchPageState extends State<SearchPage> {
               color: Colors.white,
             ),
             onPressed: () {
-              search(keyword);
+              search(_controller.text);
             },
           )
         ],
@@ -78,12 +88,16 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  search(keyword) {
-    Navigator.push(
-        context,
-        CupertinoPageRoute(
-            builder: (context) => SearchResultPage(
-                  keyword,
-                )));
+  search(String keyword) {
+    if (keyword.isNotEmpty) {
+      Navigator.push(
+          context,
+          CupertinoPageRoute(
+              builder: (context) =>
+                  SearchResultPage(
+                    keyword,
+                  )));
+    } else {
+      print('搜索内容不能为空...');
+    }
   }
-}
