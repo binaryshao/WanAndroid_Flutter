@@ -16,6 +16,7 @@ import 'package:wanandroid_flutter/utils/hint_uitls.dart';
 class RefreshableList extends StatefulWidget {
   /// 支持传入多个网络请求 [Future]
   /// 如果最后是分页接口，请传入 [Function]，因为页码在本控件内部维护
+  /// 也可以直接传入数据列表
   final List<dynamic> _requests;
 
   /// 每个接口数据中的列表的 key，根据 key 获取每个接口返回的列表
@@ -49,9 +50,19 @@ class RefreshableList extends StatefulWidget {
     this.divider,
   });
 
+  _RefreshableListState _state = _RefreshableListState();
+
   @override
   State<StatefulWidget> createState() {
-    return _RefreshableListState();
+    return _state;
+  }
+
+  void jumpTo(double value) {
+    _state.jumpTo(value);
+  }
+
+  animateTo(double offset, Duration duration, Curve curve) {
+    _state.animateTo(offset, duration, curve);
   }
 }
 
@@ -87,7 +98,12 @@ class _RefreshableListState extends State<RefreshableList>
         }
       });
     }
-    getData();
+    if (widget._requests[0] is List) {
+      _dataList = widget._requests[0];
+      _status = _dataList.length == 0 ? Status.Empty : Status.Success;
+    } else {
+      getData();
+    }
   }
 
   getAllFutures() {
@@ -177,7 +193,7 @@ class _RefreshableListState extends State<RefreshableList>
   }
 
   setError(e) {
-    HintUtils.log('发生错误：$e');
+    HintUtils.log('RefreshableList 发生错误：$e');
     if (e is Exception) {
       _errorMsg = e.toString();
     } else if (e is String) {
@@ -194,10 +210,12 @@ class _RefreshableListState extends State<RefreshableList>
   }
 
   retry() {
-    setState(() {
-      _status = Status.Loading;
-    });
-    getData();
+    if (!widget._requests[0] is List) {
+      setState(() {
+        _status = Status.Loading;
+      });
+      getData();
+    }
   }
 
   @override
@@ -269,7 +287,7 @@ class _RefreshableListState extends State<RefreshableList>
               break;
           }
         }
-        return widget._buildItem(_dataList.elementAt(index));
+        return widget._buildItem(_dataList.elementAt(index), index);
       },
       separatorBuilder: (BuildContext context, int index) {
         if (widget.divider != null) {
@@ -280,5 +298,13 @@ class _RefreshableListState extends State<RefreshableList>
         );
       },
     );
+  }
+
+  animateTo(double offset, Duration duration, Curve curve) {
+    _scrollController.animateTo(offset, duration: duration, curve: curve);
+  }
+
+  void jumpTo(double value) {
+    _scrollController.jumpTo(value);
   }
 }

@@ -28,7 +28,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  _buildItem(item) {
+  _buildItem(item, index) {
     if (item is List) {
       return HomeBanner(
         item,

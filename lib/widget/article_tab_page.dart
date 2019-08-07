@@ -127,7 +127,7 @@ class _ArticleTabState extends State<ArticleTabPage>{
     );
   }
 
-  _buildItem(item) {
+  _buildItem(item, index) {
     return ArticleItemView(item);
   }
 }

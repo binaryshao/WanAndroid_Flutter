@@ -33,7 +33,7 @@ class KnowledgeTreePage extends StatelessWidget {
     );
   }
 
-  _buildItem(item) {
+  _buildItem(item, index) {
     return InkWell(
       onTap: () {
         Navigator.of(_context).push(CupertinoPageRoute(
