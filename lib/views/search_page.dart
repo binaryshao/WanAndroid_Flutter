@@ -4,6 +4,8 @@ import 'package:wanandroid_flutter/utils/apis.dart';
 import 'package:wanandroid_flutter/config/tag.dart';
 import 'package:wanandroid_flutter/config/colors.dart';
 import 'dart:math';
+import 'package:flutter/cupertino.dart';
+import 'package:wanandroid_flutter/views/search_page_result.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -77,5 +79,11 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   search(keyword) {
+    Navigator.push(
+        context,
+        CupertinoPageRoute(
+            builder: (context) => SearchResultPage(
+                  keyword,
+                )));
   }
 }

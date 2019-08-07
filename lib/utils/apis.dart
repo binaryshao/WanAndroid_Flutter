@@ -38,4 +38,10 @@ class Apis {
   static hotKeys() {
     return HttpUtils.get('hotkey/json');
   }
+
+  static search(keyword) {
+    return (pageNo) {
+      return HttpUtils.post('article/query/$pageNo/json', body: {'k': keyword});
+    };
+  }
 }
