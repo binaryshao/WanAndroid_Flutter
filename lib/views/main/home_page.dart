@@ -4,6 +4,7 @@ import 'package:wanandroid_flutter/widget/article_item_view.dart';
 import 'package:wanandroid_flutter/widget/refreshable_list.dart';
 import 'package:wanandroid_flutter/config/tag.dart';
 import 'package:wanandroid_flutter/widget/home_banner.dart';
+import 'package:wanandroid_flutter/utils/common_utils.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -24,26 +25,24 @@ class HomePage extends StatelessWidget {
         HomeTag.top,
         HomeTag.normal,
       ],
-      _buildItem,
+      (item, index) {
+        if (item is List) {
+          return HomeBanner(
+            item,
+            (item) {
+              CommonUtils.navToWeb(context, item['url'], item['title']);
+            },
+          );
+        }
+        switch (item['localTag']) {
+          case HomeTag.top:
+            item['isTop'] = true;
+            return ArticleItemView(item);
+          case HomeTag.normal:
+            return ArticleItemView(item);
+            break;
+        }
+      },
     );
-  }
-
-  _buildItem(item, index) {
-    if (item is List) {
-      return HomeBanner(
-        item,
-        (item) {
-          print("点击了 banner : ${item['title']}");
-        },
-      );
-    }
-    switch (item['localTag']) {
-      case HomeTag.top:
-        item['isTop'] = true;
-        return ArticleItemView(item);
-      case HomeTag.normal:
-        return ArticleItemView(item);
-        break;
-    }
   }
 }

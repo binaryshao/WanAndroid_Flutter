@@ -7,6 +7,7 @@ import 'package:wanandroid_flutter/widget/loading_view.dart';
 import 'package:wanandroid_flutter/widget/error_view.dart';
 import 'package:wanandroid_flutter/widget/empty_view.dart';
 import 'dart:math';
+import 'package:wanandroid_flutter/utils/common_utils.dart';
 
 const colors = [
   Colors.orange,
@@ -179,7 +180,10 @@ class _NavigationPageState extends State<NavigationPage> {
               children: item['articles'].map<Widget>((value) {
                 var color = colors[Random().nextInt(colors.length - 1)];
                 return InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    CommonUtils.navToWeb(
+                        context, value['link'], value['title']);
+                  },
                   child: Text(
                     value['title'],
                     style: TextStyle(fontSize: 16, color: color),
