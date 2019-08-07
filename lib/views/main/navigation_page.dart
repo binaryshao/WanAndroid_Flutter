@@ -8,15 +8,7 @@ import 'package:wanandroid_flutter/widget/error_view.dart';
 import 'package:wanandroid_flutter/widget/empty_view.dart';
 import 'dart:math';
 import 'package:wanandroid_flutter/utils/common_utils.dart';
-
-const colors = [
-  Colors.orange,
-  Colors.green,
-  Colors.deepOrange,
-  Colors.deepPurple,
-  Colors.pink,
-  Colors.blue,
-];
+import 'package:wanandroid_flutter/config/colors.dart';
 
 class NavigationPage extends StatefulWidget {
   @override
@@ -178,7 +170,7 @@ class _NavigationPageState extends State<NavigationPage> {
             padding: EdgeInsets.all(10),
             child: Wrap(
               children: item['articles'].map<Widget>((value) {
-                var color = colors[Random().nextInt(colors.length - 1)];
+                var color = tagColors[Random().nextInt(tagColors.length - 1)];
                 return InkWell(
                   onTap: () {
                     CommonUtils.navToWeb(

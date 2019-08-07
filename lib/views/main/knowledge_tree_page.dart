@@ -4,15 +4,8 @@ import 'package:wanandroid_flutter/utils/apis.dart';
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:wanandroid_flutter/views/knowledge_page.dart';
+import 'package:wanandroid_flutter/config/colors.dart';
 
-const colors = [
-  Colors.orange,
-  Colors.green,
-  Colors.deepOrange,
-  Colors.deepPurple,
-  Colors.pink,
-  Colors.blue,
-];
 
 class KnowledgeTreePage extends StatelessWidget {
   BuildContext _context;
@@ -60,7 +53,7 @@ class KnowledgeTreePage extends StatelessWidget {
               margin: EdgeInsets.only(top: 10),
               child: Wrap(
                 children: item['children'].map<Widget>((value) {
-                  var color = colors[Random().nextInt(colors.length - 1)];
+                  var color = tagColors[Random().nextInt(tagColors.length - 1)];
                   return Text(
                     value['name'],
                     style: TextStyle(fontSize: 16, color: color),

@@ -125,7 +125,7 @@ class _RefreshableListState extends State<RefreshableList>
       var dataKey = widget.dataKeys[i];
       var subList = dataKey.isEmpty ? results[i] : results[i][dataKey];
       var tag = widget.tags[i];
-      if (tag == HomeTag.banner) {
+      if (tag == Tags.banner || tag == Tags.hotKey) {
         r.add(subList);
         continue;
       }

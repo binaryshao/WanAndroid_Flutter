@@ -34,4 +34,8 @@ class Apis {
   static Future navigation() {
     return HttpUtils.get('navi/json');
   }
+
+  static hotKeys() {
+    return HttpUtils.get('hotkey/json');
+  }
 }

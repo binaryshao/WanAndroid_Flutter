@@ -7,6 +7,8 @@ import 'package:wanandroid_flutter/views/main/knowledge_tree_page.dart';
 import 'package:wanandroid_flutter/views/drawer_page.dart';
 import 'package:wanandroid_flutter/utils/common_utils.dart';
 import 'package:wanandroid_flutter/utils/hint_uitls.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:wanandroid_flutter/views/search_page.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -79,7 +81,8 @@ class _MainPageState extends State<MainPage> {
         actions: <Widget>[
           IconButton(
             onPressed: () {
-              HintUtils.log('点击了搜索');
+              Navigator.push(context,
+                  CupertinoPageRoute(builder: (context) => SearchPage()));
             },
             icon: Icon(Icons.search),
           ),

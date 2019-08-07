@@ -21,9 +21,9 @@ class HomePage extends StatelessWidget {
         'datas',
       ],
       [
-        HomeTag.banner,
-        HomeTag.top,
-        HomeTag.normal,
+        Tags.banner,
+        Tags.top,
+        Tags.normal,
       ],
       (item, index) {
         if (item is List) {
@@ -35,10 +35,10 @@ class HomePage extends StatelessWidget {
           );
         }
         switch (item['localTag']) {
-          case HomeTag.top:
+          case Tags.top:
             item['isTop'] = true;
             return ArticleItemView(item);
-          case HomeTag.normal:
+          case Tags.normal:
             return ArticleItemView(item);
             break;
         }
