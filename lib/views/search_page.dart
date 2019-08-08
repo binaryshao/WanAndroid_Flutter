@@ -24,11 +24,16 @@ class _SearchPageState extends State<SearchPage> {
         title: TextField(
           controller: _controller,
           cursorColor: Colors.white,
+          style: TextStyle(color: Colors.white),
+          textInputAction: TextInputAction.search,
           onSubmitted: (value) {
             search(value);
           },
           decoration: InputDecoration(
             hintText: '请输入搜索内容...',
+            hintStyle: TextStyle(color: Colors.white54),
+            enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white)),
           ),
         ),
         actions: <Widget>[
@@ -93,11 +98,11 @@ class _SearchPageState extends State<SearchPage> {
       Navigator.push(
           context,
           CupertinoPageRoute(
-              builder: (context) =>
-                  SearchResultPage(
+              builder: (context) => SearchResultPage(
                     keyword,
                   )));
     } else {
       print('搜索内容不能为空...');
     }
   }
+}
