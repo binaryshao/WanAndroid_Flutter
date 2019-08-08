@@ -37,7 +37,11 @@ class RefreshableList extends StatefulWidget {
   /// 是否可以下拉刷新
   final refreshable;
 
+  /// 分隔线
   final Function divider;
+
+  /// 是否显示 FloatingActionButton
+  final bool showFloating;
 
   RefreshableList(
     this._requests,
@@ -48,6 +52,7 @@ class RefreshableList extends StatefulWidget {
     this.pageCountKey = 'pageCount',
     this.refreshable = true,
     this.divider,
+    this.showFloating = true,
   });
 
   _RefreshableListState _state = _RefreshableListState();
@@ -78,6 +83,8 @@ class _RefreshableListState extends State<RefreshableList>
   /// 分页接口的下标, 默认为 [_requests] 中最后一个接口
   var pageNoUserIndex;
   bool isMoreEnabled = true;
+  bool scrollUP = false;
+  double lastPixels = 0;
 
   @override
   bool get wantKeepAlive => true;
@@ -95,6 +102,17 @@ class _RefreshableListState extends State<RefreshableList>
               _moreStatus == MoreStatus.Error) {
             loadMore();
           }
+        }
+      });
+    }
+    if (widget.showFloating) {
+      _scrollController.addListener(() {
+        bool scrollUPNow = _scrollController.position.pixels - lastPixels < 0;
+        lastPixels = _scrollController.position.pixels;
+        if (scrollUP != scrollUPNow) {
+          setState(() {
+            scrollUP = scrollUPNow;
+          });
         }
       });
     }
@@ -264,39 +282,53 @@ class _RefreshableListState extends State<RefreshableList>
   }
 
   getList() {
-    return ListView.separated(
-      controller: _scrollController,
-      itemCount: _dataList.length + (isMoreEnabled ? 1 : 0),
-      itemBuilder: (context, index) {
-        if (isMoreEnabled && index == _dataList.length) {
-          switch (_moreStatus) {
-            case MoreStatus.Init:
-              return Container();
-              break;
-            case MoreStatus.Loading:
-              return LoadingView();
-              break;
-            case MoreStatus.Error:
-              return ErrorView(
-                error: _errorMsg,
-                retry: loadMore,
-              );
-              break;
-            case MoreStatus.End:
-              return EndView();
-              break;
+    return Scaffold(
+      body: ListView.separated(
+        controller: _scrollController,
+        itemCount: _dataList.length + (isMoreEnabled ? 1 : 0),
+        itemBuilder: (context, index) {
+          if (isMoreEnabled && index == _dataList.length) {
+            switch (_moreStatus) {
+              case MoreStatus.Init:
+                return Container();
+                break;
+              case MoreStatus.Loading:
+                return LoadingView();
+                break;
+              case MoreStatus.Error:
+                return ErrorView(
+                  error: _errorMsg,
+                  retry: loadMore,
+                );
+                break;
+              case MoreStatus.End:
+                return EndView();
+                break;
+            }
           }
-        }
-        return widget._buildItem(_dataList.elementAt(index), index);
-      },
-      separatorBuilder: (BuildContext context, int index) {
-        if (widget.divider != null) {
-          return widget.divider(index);
-        }
-        return Divider(
-          height: 0,
-        );
-      },
+          return widget._buildItem(_dataList.elementAt(index), index);
+        },
+        separatorBuilder: (BuildContext context, int index) {
+          if (widget.divider != null) {
+            return widget.divider(index);
+          }
+          return Divider(
+            height: 0,
+          );
+        },
+      ),
+      floatingActionButton: (widget.showFloating && scrollUP)
+          ? FloatingActionButton(
+              onPressed: () {
+                jumpTo(0);
+                setState(() {
+                  scrollUP = false;
+                });
+              },
+              tooltip: '回到顶部',
+              child: Icon(Icons.arrow_upward),
+            )
+          : null,
     );
   }
 

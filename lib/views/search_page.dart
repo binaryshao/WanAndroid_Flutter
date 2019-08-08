@@ -49,7 +49,13 @@ class _SearchPageState extends State<SearchPage> {
           )
         ],
       ),
-      body: RefreshableList([Apis.hotKeys()], [''], [Tags.hotKey], _buildItem),
+      body: RefreshableList(
+        [Apis.hotKeys()],
+        [''],
+        [Tags.hotKey],
+        _buildItem,
+        showFloating: false,
+      ),
     );
   }
 

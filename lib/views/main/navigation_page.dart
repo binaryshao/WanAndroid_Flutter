@@ -94,6 +94,7 @@ class _NavigationPageState extends State<NavigationPage> {
               );
             },
             refreshable: false,
+            showFloating: false,
           );
         }
         return Row(
@@ -106,6 +107,7 @@ class _NavigationPageState extends State<NavigationPage> {
                 [''],
                 _buildLeftItem,
                 refreshable: false,
+                showFloating: false,
               ),
             ),
             Expanded(

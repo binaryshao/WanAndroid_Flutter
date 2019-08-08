@@ -105,13 +105,6 @@ class _MainPageState extends State<MainPage> {
         controller: _pageController,
         physics: NeverScrollableScrollPhysics(),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          HintUtils.log('点击了回到顶部');
-        },
-        tooltip: '回到顶部',
-        child: Icon(Icons.arrow_upward),
-      ),
     );
   }
 }

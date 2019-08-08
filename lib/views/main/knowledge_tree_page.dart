@@ -23,6 +23,7 @@ class KnowledgeTreePage extends StatelessWidget {
           height: 20,
         );
       },
+      showFloating: false,
     );
   }
 
