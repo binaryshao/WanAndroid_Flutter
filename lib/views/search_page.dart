@@ -6,6 +6,7 @@ import 'package:wanandroid_flutter/config/colors.dart';
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:wanandroid_flutter/views/search_page_result.dart';
+import 'package:wanandroid_flutter/utils/hint_uitls.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -102,7 +103,7 @@ class _SearchPageState extends State<SearchPage> {
                     keyword,
                   )));
     } else {
-      print('搜索内容不能为空...');
+      HintUtils.toast(context, '搜索内容不能为空...');
     }
   }
 }
