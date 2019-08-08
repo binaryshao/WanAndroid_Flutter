@@ -265,7 +265,21 @@ class _RefreshableListState extends State<RefreshableList>
         ),
         Offstage(
           offstage: _status != Status.Success,
-          child: selectList(),
+          child: Scaffold(
+            body: selectList(),
+            floatingActionButton: (widget.showFloating && scrollUP)
+                ? FloatingActionButton(
+                    onPressed: () {
+                      jumpTo(0);
+                      setState(() {
+                        scrollUP = false;
+                      });
+                    },
+                    tooltip: '回到顶部',
+                    child: Icon(Icons.arrow_upward),
+                  )
+                : null,
+          ),
         )
       ],
     );
@@ -282,53 +296,39 @@ class _RefreshableListState extends State<RefreshableList>
   }
 
   getList() {
-    return Scaffold(
-      body: ListView.separated(
-        controller: _scrollController,
-        itemCount: _dataList.length + (isMoreEnabled ? 1 : 0),
-        itemBuilder: (context, index) {
-          if (isMoreEnabled && index == _dataList.length) {
-            switch (_moreStatus) {
-              case MoreStatus.Init:
-                return Container();
-                break;
-              case MoreStatus.Loading:
-                return LoadingView();
-                break;
-              case MoreStatus.Error:
-                return ErrorView(
-                  error: _errorMsg,
-                  retry: loadMore,
-                );
-                break;
-              case MoreStatus.End:
-                return EndView();
-                break;
-            }
+    return ListView.separated(
+      controller: _scrollController,
+      itemCount: _dataList.length + (isMoreEnabled ? 1 : 0),
+      itemBuilder: (context, index) {
+        if (isMoreEnabled && index == _dataList.length) {
+          switch (_moreStatus) {
+            case MoreStatus.Init:
+              return Container();
+              break;
+            case MoreStatus.Loading:
+              return LoadingView();
+              break;
+            case MoreStatus.Error:
+              return ErrorView(
+                error: _errorMsg,
+                retry: loadMore,
+              );
+              break;
+            case MoreStatus.End:
+              return EndView();
+              break;
           }
-          return widget._buildItem(_dataList.elementAt(index), index);
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          if (widget.divider != null) {
-            return widget.divider(index);
-          }
-          return Divider(
-            height: 0,
-          );
-        },
-      ),
-      floatingActionButton: (widget.showFloating && scrollUP)
-          ? FloatingActionButton(
-              onPressed: () {
-                jumpTo(0);
-                setState(() {
-                  scrollUP = false;
-                });
-              },
-              tooltip: '回到顶部',
-              child: Icon(Icons.arrow_upward),
-            )
-          : null,
+        }
+        return widget._buildItem(_dataList.elementAt(index), index);
+      },
+      separatorBuilder: (BuildContext context, int index) {
+        if (widget.divider != null) {
+          return widget.divider(index);
+        }
+        return Divider(
+          height: 0,
+        );
+      },
     );
   }
 
