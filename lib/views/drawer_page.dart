@@ -19,29 +19,14 @@ class _DrawerPageState extends State<DrawerPage> {
             padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
+                CommonUtils.getRoundImage('ic_avatar', 40),
                 Container(
-                  height: 45,
-                  width: 45,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: AssetImage(
-                        CommonUtils.getImagePath('ic_avatar'),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 10),
+                  margin: EdgeInsets.only(top: 20),
                   alignment: Alignment.center,
                   child: Text(
                     '还没有登录...',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16
-                    ),
+                    style: TextStyle(color: Colors.white, fontSize: 16),
                   ),
                 )
               ],
@@ -51,49 +36,26 @@ class _DrawerPageState extends State<DrawerPage> {
         ListView(
           shrinkWrap: true,
           children: <Widget>[
-            ListTile(
-              leading: Image.asset(
-                CommonUtils.getImagePath('ic_favorite_not'),
-                width: 20,
-                height: 20,
-                color: Colors.black54,
-              ),
-              title: Text('收藏夹'),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: Image.asset(
-                CommonUtils.getImagePath('ic_todo'),
-                width: 20,
-                height: 20,
-                color: Colors.black54,
-              ),
-              title: Text('任务清单'),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: Image.asset(
-                CommonUtils.getImagePath('ic_about'),
-                width: 20,
-                height: 20,
-                color: Colors.black54,
-              ),
-              title: Text('关于'),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: Image.asset(
-                CommonUtils.getImagePath('ic_logout'),
-                width: 20,
-                height: 20,
-                color: Colors.black54,
-              ),
-              title: Text('退出登录'),
-              onTap: () {},
-            ),
+            getItem('ic_favorite_not', '收藏夹', () {}),
+            getItem('ic_todo', '任务清单', () {}),
+            getItem('ic_about', '关于', () {}),
+            getItem('ic_logout', '退出登录', () {}),
           ],
         ),
       ],
+    );
+  }
+
+  getItem(imgName, title, onTap) {
+    return ListTile(
+      leading: Image.asset(
+        CommonUtils.getImagePath(imgName),
+        width: 20,
+        height: 20,
+        color: Colors.black54,
+      ),
+      title: Text(title),
+      onTap: onTap,
     );
   }
 }
