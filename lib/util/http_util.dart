@@ -1,6 +1,6 @@
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
-import 'hint_uitls.dart';
+import 'hint_uitl.dart';
 
 const BASE_URL = "https://www.wanandroid.com";
 
@@ -15,33 +15,33 @@ Future proceedResponse(url, Future future) {
       return Future.value(jsonResponse);
     } else {
       var msg = '请求失败 ${response.statusCode}';
-      HintUtils.log(msg);
+      HintUtil.log(msg);
       return Future.error(msg);
     }
   }).then((jsonResponse) {
-    HintUtils.log('$url json返回如下：\n$jsonResponse');
+    HintUtil.log('$url json返回如下：\n$jsonResponse');
     if (jsonResponse != null) {
       if (jsonResponse['errorCode'] == 0) {
         return jsonResponse['data'];
       } else {
         var msg = "业务失败：$jsonResponse['errorMsg']";
-        HintUtils.log(msg);
+        HintUtil.log(msg);
         return Future.error(msg);
       }
     }
   });
 }
 
-class HttpUtils {
+class HttpUtil {
   static Future get(String path, {Map<String, String> headers}) {
     var url = getRequestUrl(path);
-    HintUtils.log('get-请求：$url');
+    HintUtil.log('get-请求：$url');
     return proceedResponse(url, http.get(url, headers: headers));
   }
 
   static Future post(String path, {Map<String, String> headers, body}) {
     var url = getRequestUrl(path);
-    HintUtils.log('post-请求：$url\n参数：$body');
+    HintUtil.log('post-请求：$url\n参数：$body');
     return proceedResponse(url, http.post(url, headers: headers, body: body));
   }
 }

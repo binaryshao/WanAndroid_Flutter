@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/widget/refreshable_list.dart';
-import 'package:wanandroid_flutter/utils/apis.dart';
+import 'package:wanandroid_flutter/util/apis.dart';
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
-import 'package:wanandroid_flutter/views/knowledge_page.dart';
+import 'package:wanandroid_flutter/view/knowledge_page.dart';
 import 'package:wanandroid_flutter/config/colors.dart';
-
+import 'package:wanandroid_flutter/util/nav_util.dart';
 
 class KnowledgeTreePage extends StatelessWidget {
   BuildContext _context;
@@ -30,11 +30,12 @@ class KnowledgeTreePage extends StatelessWidget {
   _buildItem(item, index) {
     return InkWell(
       onTap: () {
-        Navigator.of(_context).push(CupertinoPageRoute(
-            builder: (context) => KnowledgePage(
-                  item['name'],
-                  item['children'],
-                )));
+        NavUtil.navTo(
+            _context,
+            KnowledgePage(
+              item['name'],
+              item['children'],
+            ));
       },
       child: Container(
         color: Color(0x6FECEFF6),

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:wanandroid_flutter/utils/apis.dart';
+import 'package:wanandroid_flutter/util/apis.dart';
 import 'package:wanandroid_flutter/widget/article_item_view.dart';
 import 'package:wanandroid_flutter/widget/refreshable_list.dart';
 import 'package:wanandroid_flutter/config/tag.dart';
 import 'package:wanandroid_flutter/widget/home_banner.dart';
-import 'package:wanandroid_flutter/utils/common_utils.dart';
+import 'package:wanandroid_flutter/util/nav_util.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -30,7 +30,7 @@ class HomePage extends StatelessWidget {
           return HomeBanner(
             item,
             (item) {
-              CommonUtils.navToWeb(context, item['url'], item['title']);
+              NavUtil.navToWeb(context, item['url'], item['title']);
             },
           );
         }

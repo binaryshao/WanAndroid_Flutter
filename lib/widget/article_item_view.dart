@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wanandroid_flutter/utils/hint_uitls.dart';
-import 'package:wanandroid_flutter/utils/common_utils.dart';
+import 'package:wanandroid_flutter/util/hint_uitl.dart';
+import 'package:wanandroid_flutter/util/nav_util.dart';
 
 class ArticleItemView extends StatefulWidget {
   final item;
@@ -56,8 +56,7 @@ class _ArticleItemViewState extends State<ArticleItemView> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        CommonUtils.navToWeb(
-            context, widget.item['link'], widget.item['title']);
+        NavUtil.navToWeb(context, widget.item['link'], widget.item['title']);
       },
       child: Container(
         padding: EdgeInsets.all(10),
@@ -120,7 +119,7 @@ class _ArticleItemViewState extends State<ArticleItemView> {
                 ),
                 InkWell(
                   onTap: () {
-                    HintUtils.log('收藏+1');
+                    HintUtil.log('收藏+1');
                   },
                   child: Container(
                     height: 24,

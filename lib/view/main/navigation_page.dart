@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/widget/refreshable_list.dart';
-import 'package:wanandroid_flutter/utils/apis.dart';
+import 'package:wanandroid_flutter/util/apis.dart';
 import 'package:wanandroid_flutter/config/status.dart';
-import 'package:wanandroid_flutter/utils/hint_uitls.dart';
+import 'package:wanandroid_flutter/util/hint_uitl.dart';
 import 'package:wanandroid_flutter/widget/loading_view.dart';
 import 'package:wanandroid_flutter/widget/error_view.dart';
 import 'package:wanandroid_flutter/widget/empty_view.dart';
 import 'dart:math';
-import 'package:wanandroid_flutter/utils/common_utils.dart';
+import 'package:wanandroid_flutter/util/nav_util.dart';
 import 'package:wanandroid_flutter/config/colors.dart';
 
 class NavigationPage extends StatefulWidget {
@@ -48,7 +48,7 @@ class _NavigationPageState extends State<NavigationPage> {
   }
 
   setError(e) {
-    HintUtils.log('NavigationPage 发生错误：$e');
+    HintUtil.log('NavigationPage 发生错误：$e');
     if (e is Exception) {
       _errorMsg = e.toString();
     } else if (e is String) {
@@ -175,7 +175,7 @@ class _NavigationPageState extends State<NavigationPage> {
                 var color = tagColors[Random().nextInt(tagColors.length - 1)];
                 return InkWell(
                   onTap: () {
-                    CommonUtils.navToWeb(
+                    NavUtil.navToWeb(
                         context, value['link'], value['title']);
                   },
                   child: Text(

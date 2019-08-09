@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/widget/refreshable_list.dart';
-import 'package:wanandroid_flutter/utils/apis.dart';
+import 'package:wanandroid_flutter/util/apis.dart';
 import 'package:wanandroid_flutter/widget/article_item_view.dart';
 
 class SearchResultPage extends StatelessWidget {

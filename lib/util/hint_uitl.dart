@@ -2,7 +2,7 @@ import 'package:toast/toast.dart';
 
 const bool isProduction = const bool.fromEnvironment("dart.vm.product");
 
-class HintUtils {
+class HintUtil {
   static log(msg) {
     if (!isProduction) {
       print(msg);

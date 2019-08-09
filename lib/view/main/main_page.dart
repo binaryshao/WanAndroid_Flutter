@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:wanandroid_flutter/views/main/home_page.dart';
-import 'package:wanandroid_flutter/views/main/wechat_page.dart';
-import 'package:wanandroid_flutter/views/main/project_page.dart';
-import 'package:wanandroid_flutter/views/main/navigation_page.dart';
-import 'package:wanandroid_flutter/views/main/knowledge_tree_page.dart';
-import 'package:wanandroid_flutter/views/drawer_page.dart';
-import 'package:wanandroid_flutter/utils/common_utils.dart';
-import 'package:wanandroid_flutter/utils/hint_uitls.dart';
+import 'package:wanandroid_flutter/view/main/home_page.dart';
+import 'package:wanandroid_flutter/view/main/wechat_page.dart';
+import 'package:wanandroid_flutter/view/main/project_page.dart';
+import 'package:wanandroid_flutter/view/main/navigation_page.dart';
+import 'package:wanandroid_flutter/view/main/knowledge_tree_page.dart';
+import 'package:wanandroid_flutter/view/drawer_page.dart';
+import 'package:wanandroid_flutter/util/image_util.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:wanandroid_flutter/views/search_page.dart';
+import 'package:wanandroid_flutter/view/search_page.dart';
+import 'package:wanandroid_flutter/util/nav_util.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -48,13 +48,13 @@ class _MainPageState extends State<MainPage> {
       bottomItemList = _bottomItems
           .map((item) => BottomNavigationBarItem(
               icon: Image.asset(
-                CommonUtils.getImagePath(item.icon),
+                ImageUtil.getImagePath(item.icon),
                 width: 25,
                 height: 25,
                 color: Colors.grey,
               ),
               activeIcon: Image.asset(
-                CommonUtils.getImagePath(item.icon),
+                ImageUtil.getImagePath(item.icon),
                 width: 25,
                 height: 25,
                 color: Colors.teal,
@@ -81,8 +81,7 @@ class _MainPageState extends State<MainPage> {
         actions: <Widget>[
           IconButton(
             onPressed: () {
-              Navigator.push(context,
-                  CupertinoPageRoute(builder: (context) => SearchPage()));
+              NavUtil.navTo(context, SearchPage());
             },
             icon: Icon(Icons.search),
           ),

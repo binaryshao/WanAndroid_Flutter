@@ -5,7 +5,7 @@ import 'package:wanandroid_flutter/widget/error_view.dart';
 import 'package:wanandroid_flutter/widget/loading_view.dart';
 import 'package:wanandroid_flutter/config/status.dart';
 import 'package:wanandroid_flutter/config/tag.dart';
-import 'package:wanandroid_flutter/utils/hint_uitls.dart';
+import 'package:wanandroid_flutter/util/hint_uitl.dart';
 
 /// 支持请求多个接口
 /// 只有一个接口能分页，默认为 [_requests] 中最后一个接口
@@ -211,7 +211,7 @@ class _RefreshableListState extends State<RefreshableList>
   }
 
   setError(e) {
-    HintUtils.log('RefreshableList 发生错误：$e');
+    HintUtil.log('RefreshableList 发生错误：$e');
     if (e is Exception) {
       _errorMsg = e.toString();
     } else if (e is String) {

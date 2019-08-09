@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/widget/refreshable_list.dart';
-import 'package:wanandroid_flutter/utils/apis.dart';
+import 'package:wanandroid_flutter/util/apis.dart';
 import 'package:wanandroid_flutter/config/tag.dart';
 import 'package:wanandroid_flutter/config/colors.dart';
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
-import 'package:wanandroid_flutter/views/search_page_result.dart';
-import 'package:wanandroid_flutter/utils/hint_uitls.dart';
+import 'package:wanandroid_flutter/view/search_page_result.dart';
+import 'package:wanandroid_flutter/util/hint_uitl.dart';
+import 'package:wanandroid_flutter/util/nav_util.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -102,14 +103,13 @@ class _SearchPageState extends State<SearchPage> {
 
   search(String keyword) {
     if (keyword.isNotEmpty) {
-      Navigator.push(
+      NavUtil.navTo(
           context,
-          CupertinoPageRoute(
-              builder: (context) => SearchResultPage(
-                    keyword,
-                  )));
+          SearchResultPage(
+            keyword,
+          ));
     } else {
-      HintUtils.toast(context, '搜索内容不能为空...');
+      HintUtil.toast(context, '搜索内容不能为空...');
     }
   }
 }

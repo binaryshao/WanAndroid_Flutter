@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wanandroid_flutter/utils/common_utils.dart';
+import 'package:wanandroid_flutter/util/image_util.dart';
 
 class DrawerPage extends StatefulWidget {
   @override
@@ -20,7 +20,7 @@ class _DrawerPageState extends State<DrawerPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                CommonUtils.getRoundImage('ic_avatar', 40),
+                ImageUtil.getRoundImage('ic_avatar', 40),
                 Container(
                   margin: EdgeInsets.only(top: 20),
                   alignment: Alignment.center,
@@ -33,14 +33,16 @@ class _DrawerPageState extends State<DrawerPage> {
             ),
           ),
         ),
-        ListView(
-          shrinkWrap: true,
-          children: <Widget>[
-            getItem('ic_favorite_not', '收藏夹', () {}),
-            getItem('ic_todo', '任务清单', () {}),
-            getItem('ic_about', '关于', () {}),
-            getItem('ic_logout', '退出登录', () {}),
-          ],
+        Expanded(
+          child: ListView(
+            shrinkWrap: true,
+            children: <Widget>[
+              getItem('ic_favorite_not', '收藏夹', () {}),
+              getItem('ic_todo', '任务清单', () {}),
+              getItem('ic_about', '关于', () {}),
+              getItem('ic_logout', '退出登录', () {}),
+            ],
+          ),
         ),
       ],
     );
@@ -49,7 +51,7 @@ class _DrawerPageState extends State<DrawerPage> {
   getItem(imgName, title, onTap) {
     return ListTile(
       leading: Image.asset(
-        CommonUtils.getImagePath(imgName),
+        ImageUtil.getImagePath(imgName),
         width: 20,
         height: 20,
         color: Colors.black54,
