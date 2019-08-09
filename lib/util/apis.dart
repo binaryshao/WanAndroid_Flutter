@@ -49,4 +49,8 @@ class Apis {
     return HttpUtil.post('user/login',
         body: {'username': username, 'password': password});
   }
+
+  static favorite(pageNo) {
+    return HttpUtil.get('lg/collect/list/$pageNo/json');
+  }
 }
