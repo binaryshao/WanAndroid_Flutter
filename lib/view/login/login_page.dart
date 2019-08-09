@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/util/nav_util.dart';
+import 'package:wanandroid_flutter/util/apis.dart';
+import 'package:wanandroid_flutter/util/account_util.dart';
+import 'package:wanandroid_flutter/util/hint_uitl.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -77,6 +80,21 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         _isLoading = true;
       });
+      Apis.login(_userName, _password).then((result) {
+        loginSuccess(result['nickname']);
+      }).catchError((e) {
+        HintUtil.toast(context, e.toString());
+      }).whenComplete(() {
+        setState(() {
+          _isLoading = false;
+        });
+      });
     }
+  }
+
+  loginSuccess(name) async {
+    await AccountUtil.saveUserName(name);
+    HintUtil.toast(context, '登录成功');
+    NavUtil.pop(context);
   }
 }

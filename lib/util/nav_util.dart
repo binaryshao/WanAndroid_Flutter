@@ -16,4 +16,8 @@ class NavUtil {
                   title,
                 )));
   }
+
+  static pop(BuildContext context) {
+    Navigator.pop(context);
+  }
 }
