@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/util/image_util.dart';
+import 'package:wanandroid_flutter/util/nav_util.dart';
+import 'package:wanandroid_flutter/view/login/login_page.dart';
 
 class DrawerPage extends StatefulWidget {
   @override
@@ -12,7 +14,9 @@ class _DrawerPageState extends State<DrawerPage> {
     return Column(
       children: <Widget>[
         InkWell(
-          onTap: () {},
+          onTap: () {
+            NavUtil.navTo(context, LoginPage());
+          },
           child: Container(
             color: Theme.of(context).primaryColor,
             height: 180,

@@ -24,7 +24,7 @@ Future proceedResponse(url, Future future) {
       if (jsonResponse['errorCode'] == 0) {
         return jsonResponse['data'];
       } else {
-        var msg = "业务失败：$jsonResponse['errorMsg']";
+        var msg = "业务失败：${jsonResponse['errorMsg']}";
         HintUtil.log(msg);
         return Future.error(msg);
       }
