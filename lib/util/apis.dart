@@ -53,4 +53,12 @@ class Apis {
   static favorite(pageNo) {
     return HttpUtil.get('lg/collect/list/$pageNo/json');
   }
+
+  static Future register(username, password, passwordAgain) {
+    return HttpUtil.post('user/register', body: {
+      'username': username,
+      'password': password,
+      'repassword': passwordAgain
+    });
+  }
 }
