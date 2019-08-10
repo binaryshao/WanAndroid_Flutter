@@ -3,6 +3,7 @@ import 'package:wanandroid_flutter/util/nav_util.dart';
 import 'package:wanandroid_flutter/util/apis.dart';
 import 'package:wanandroid_flutter/util/account_util.dart';
 import 'package:wanandroid_flutter/util/hint_uitl.dart';
+import 'package:wanandroid_flutter/config/event.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -95,6 +96,7 @@ class _LoginPageState extends State<LoginPage> {
   loginSuccess(name) async {
     await AccountUtil.saveUserName(name);
     HintUtil.toast(context, '登录成功');
+    eventBus.fire(Login());
     NavUtil.pop(context);
   }
 }

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/util/image_util.dart';
 import 'package:wanandroid_flutter/util/nav_util.dart';
@@ -5,6 +6,7 @@ import 'package:wanandroid_flutter/view/login/favorite_page.dart';
 import 'package:wanandroid_flutter/view/login/login_page.dart';
 import 'package:wanandroid_flutter/util/account_util.dart';
 import 'package:wanandroid_flutter/util/hint_uitl.dart';
+import 'package:wanandroid_flutter/config/event.dart';
 
 class DrawerPage extends StatefulWidget {
   @override
@@ -13,10 +15,14 @@ class DrawerPage extends StatefulWidget {
 
 class _DrawerPageState extends State<DrawerPage> {
   String _userName = '';
+  StreamSubscription loginSubscription;
 
   @override
   void initState() {
     super.initState();
+    loginSubscription = eventBus.on<Login>().listen((event) {
+      refreshUser();
+    });
     refreshUser();
   }
 
@@ -28,6 +34,13 @@ class _DrawerPageState extends State<DrawerPage> {
         });
       }
     });
+  }
+
+
+  @override
+  void dispose() {
+    super.dispose();
+    loginSubscription.cancel();
   }
 
   @override
@@ -43,9 +56,14 @@ class _DrawerPageState extends State<DrawerPage> {
             }
           },
           child: Container(
-            color: Theme.of(context).primaryColor,
+            color: Theme
+                .of(context)
+                .primaryColor,
             height: 180,
-            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+            padding: EdgeInsets.only(top: MediaQuery
+                .of(context)
+                .padding
+                .top),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[

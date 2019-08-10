@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/widget/empty_view.dart';
 import 'package:wanandroid_flutter/widget/end_view.dart';
@@ -6,6 +7,7 @@ import 'package:wanandroid_flutter/widget/loading_view.dart';
 import 'package:wanandroid_flutter/config/status.dart';
 import 'package:wanandroid_flutter/config/tag.dart';
 import 'package:wanandroid_flutter/util/hint_uitl.dart';
+import 'package:wanandroid_flutter/config/event.dart';
 
 /// 支持请求多个接口
 /// 只有一个接口能分页，默认为 [_requests] 中最后一个接口
@@ -85,6 +87,7 @@ class _RefreshableListState extends State<RefreshableList>
   bool isMoreEnabled = true;
   bool scrollUP = false;
   double lastPixels = 0;
+  StreamSubscription loginSubscription;
 
   @override
   bool get wantKeepAlive => true;
@@ -92,6 +95,9 @@ class _RefreshableListState extends State<RefreshableList>
   @override
   void initState() {
     super.initState();
+    loginSubscription = eventBus.on<Login>().listen((event) {
+      getData();
+    });
     pageNoUserIndex = widget._requests.length - 1;
     isMoreEnabled = widget._requests[pageNoUserIndex] is Function;
     if (isMoreEnabled) {
@@ -240,6 +246,7 @@ class _RefreshableListState extends State<RefreshableList>
   void dispose() {
     super.dispose();
     _scrollController.dispose();
+    loginSubscription.cancel();
   }
 
   @override
