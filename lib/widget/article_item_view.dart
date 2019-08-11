@@ -147,7 +147,13 @@ class _ArticleItemViewState extends State<ArticleItemView> {
                   child: Container(
                     height: 24,
                     child: IconButton(
-                      icon: Icon(Icons.star_border),
+                      icon: widget.item['collect'] != null &&
+                              widget.item['collect']
+                          ? Icon(
+                              Icons.star,
+                              color: Colors.redAccent,
+                            )
+                          : Icon(Icons.star_border),
                       color: Colors.black54,
                       padding: EdgeInsets.all(0),
                       onPressed: () {},

@@ -11,6 +11,7 @@ class FavoritePage extends StatelessWidget {
         title: Text('我的收藏'),
       ),
       body: RefreshableList([Apis.favorite], ['datas'], [''], (item, index) {
+        item['collect'] = true;
         return ArticleItemView(item);
       }),
     );
