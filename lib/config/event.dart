@@ -5,3 +5,5 @@ EventBus eventBus = EventBus();
 class Login {}
 
 class Logout {}
+
+class SwitchFavorite {}

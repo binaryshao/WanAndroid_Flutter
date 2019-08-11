@@ -3,11 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/util/hint_uitl.dart';
 import 'package:wanandroid_flutter/util/nav_util.dart';
 import 'package:wanandroid_flutter/config/event.dart';
+import 'package:wanandroid_flutter/util/account_util.dart';
+import 'package:wanandroid_flutter/view/login/login_page.dart';
+import 'package:wanandroid_flutter/util/apis.dart';
 
 class ArticleItemView extends StatefulWidget {
   final item;
 
-  ArticleItemView(this.item);
+  final isFromFavorite;
+
+  ArticleItemView(this.item, {this.isFromFavorite = false});
 
   @override
   State<StatefulWidget> createState() {
@@ -142,7 +147,7 @@ class _ArticleItemViewState extends State<ArticleItemView> {
                 ),
                 InkWell(
                   onTap: () {
-                    HintUtil.log('收藏+1');
+                    switchFavorite();
                   },
                   child: Container(
                     height: 24,
@@ -166,5 +171,33 @@ class _ArticleItemViewState extends State<ArticleItemView> {
         ),
       ),
     );
+  }
+
+  switchFavorite() async {
+    String name = await AccountUtil.getUserName();
+    if (name == null || name.isEmpty) {
+      NavUtil.navTo(context, LoginPage());
+      HintUtil.toast(context, '请先登录');
+    } else {
+      Future future = widget.item['collect']
+          ? widget.isFromFavorite
+              ? Apis.uncollectFromFavorite(
+                  widget.item['id'],
+                  widget.item['originId'] != null
+                      ? widget.item['originId']
+                      : -1)
+              : Apis.uncollect(widget.item['id'])
+          : Apis.collect(widget.item['id']);
+      future.then((result) {
+        HintUtil.toast(context, widget.item['collect'] ? "已取消收藏" : "收藏成功");
+        if (widget.isFromFavorite) {
+          eventBus.fire(SwitchFavorite());
+        } else {
+          setState(() {
+            widget.item['collect'] = !widget.item['collect'];
+          });
+        }
+      }).catchError((e) {});
+    }
   }
 }

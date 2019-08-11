@@ -12,7 +12,10 @@ class FavoritePage extends StatelessWidget {
       ),
       body: RefreshableList([Apis.favorite], ['datas'], [''], (item, index) {
         item['collect'] = true;
-        return ArticleItemView(item);
+        return ArticleItemView(
+          item,
+          isFromFavorite: true,
+        );
       }),
     );
   }

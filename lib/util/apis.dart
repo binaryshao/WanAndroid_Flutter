@@ -65,4 +65,17 @@ class Apis {
   static Future logout() {
     return HttpUtil.get('user/logout/json');
   }
+
+  static Future collect(id) {
+    return HttpUtil.post('lg/collect/$id//json');
+  }
+
+  static Future uncollect(id) {
+    return HttpUtil.post('lg/uncollect_originId/$id//json');
+  }
+
+  static Future uncollectFromFavorite(id, originId) {
+    return HttpUtil.post('lg/uncollect/$id//json',
+        body: {'originId': originId});
+  }
 }
