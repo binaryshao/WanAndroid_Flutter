@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/util/hint_uitl.dart';
 import 'package:wanandroid_flutter/util/nav_util.dart';
+import 'package:wanandroid_flutter/config/event.dart';
 
 class ArticleItemView extends StatefulWidget {
   final item;
@@ -14,6 +16,24 @@ class ArticleItemView extends StatefulWidget {
 }
 
 class _ArticleItemViewState extends State<ArticleItemView> {
+  StreamSubscription logoutSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    logoutSubscription = eventBus.on<Logout>().listen((event) {
+      setState(() {
+        widget.item['collect'] = false;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    logoutSubscription.cancel();
+  }
+
   Widget getFresh(isOk, text, color) {
     if (isOk) {
       return Container(

@@ -7,6 +7,7 @@ import 'package:wanandroid_flutter/view/login/login_page.dart';
 import 'package:wanandroid_flutter/util/account_util.dart';
 import 'package:wanandroid_flutter/util/hint_uitl.dart';
 import 'package:wanandroid_flutter/config/event.dart';
+import 'package:wanandroid_flutter/util/apis.dart';
 
 class DrawerPage extends StatefulWidget {
   @override
@@ -36,7 +37,6 @@ class _DrawerPageState extends State<DrawerPage> {
     });
   }
 
-
   @override
   void dispose() {
     super.dispose();
@@ -56,14 +56,9 @@ class _DrawerPageState extends State<DrawerPage> {
             }
           },
           child: Container(
-            color: Theme
-                .of(context)
-                .primaryColor,
+            color: Theme.of(context).primaryColor,
             height: 180,
-            padding: EdgeInsets.only(top: MediaQuery
-                .of(context)
-                .padding
-                .top),
+            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -106,8 +101,49 @@ class _DrawerPageState extends State<DrawerPage> {
     if (_userName.isEmpty) {
       return Container();
     } else {
-      return getItem('ic_logout', '退出登录', () {});
+      return getItem('ic_logout', '退出登录', () {
+        return showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('退出登录'),
+              content: Text(
+                '确定要退出吗？',
+              ),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('确定'),
+                  onPressed: () {
+                    Apis.logout().then((result) {
+                      logout();
+                      NavUtil.pop(context);
+                    }).catchError((e) {
+                      HintUtil.toast(context, e.toString());
+                    });
+                  },
+                ),
+                FlatButton(
+                  child: Text('取消'),
+                  onPressed: () {
+                    NavUtil.pop(context);
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      });
     }
+  }
+
+  logout() async {
+    await AccountUtil.removeUser();
+    HintUtil.toast(context, '已退出登录');
+    setState(() {
+      _userName = '';
+    });
+    eventBus.fire(Logout());
   }
 
   getItem(imgName, title, onTap) {

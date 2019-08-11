@@ -61,4 +61,8 @@ class Apis {
       'repassword': passwordAgain
     });
   }
+
+  static Future logout() {
+    return HttpUtil.get('user/logout/json');
+  }
 }
