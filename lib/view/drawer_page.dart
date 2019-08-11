@@ -139,6 +139,7 @@ class _DrawerPageState extends State<DrawerPage> {
 
   logout() async {
     await AccountUtil.removeUser();
+    await AccountUtil.removeCookie();
     HintUtil.toast(context, '已退出登录');
     setState(() {
       _userName = '';

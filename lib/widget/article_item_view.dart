@@ -87,7 +87,10 @@ class _ArticleItemViewState extends State<ArticleItemView> {
                 Text(
                   widget.item['author'],
                 ),
-                getFresh(widget.item['fresh'], "新", Colors.redAccent),
+                getFresh(
+                    widget.item['fresh'] != null ? widget.item['fresh'] : false,
+                    "新",
+                    Colors.redAccent),
                 getFresh(
                     widget.item['isTop'] != null ? widget.item['isTop'] : false,
                     "置顶",
