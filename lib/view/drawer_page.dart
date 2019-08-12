@@ -8,6 +8,7 @@ import 'package:wanandroid_flutter/util/account_util.dart';
 import 'package:wanandroid_flutter/util/hint_uitl.dart';
 import 'package:wanandroid_flutter/config/event.dart';
 import 'package:wanandroid_flutter/util/apis.dart';
+import 'package:wanandroid_flutter/view/login/todo_page.dart';
 
 class DrawerPage extends StatefulWidget {
   @override
@@ -80,14 +81,11 @@ class _DrawerPageState extends State<DrawerPage> {
             shrinkWrap: true,
             children: <Widget>[
               getItem('ic_favorite_not', '收藏夹', () {
-                if (_userName.isEmpty) {
-                  HintUtil.toast(context, '请先登录');
-                  NavUtil.navTo(context, LoginPage());
-                } else {
-                  NavUtil.navTo(context, FavoritePage());
-                }
+                loginOrDirect(FavoritePage());
               }),
-              getItem('ic_todo', '任务清单', () {}),
+              getItem('ic_todo', '任务清单', () {
+                loginOrDirect(TodoPage());
+              }),
               getItem('ic_about', '关于', () {}),
               getLogout(),
             ],
@@ -95,6 +93,15 @@ class _DrawerPageState extends State<DrawerPage> {
         ),
       ],
     );
+  }
+
+  loginOrDirect(Widget page) {
+    if (_userName.isEmpty) {
+      HintUtil.toast(context, '请先登录');
+      NavUtil.navTo(context, LoginPage());
+    } else {
+      NavUtil.navTo(context, page);
+    }
   }
 
   getLogout() {

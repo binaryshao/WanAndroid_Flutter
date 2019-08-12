@@ -78,4 +78,8 @@ class Apis {
     return HttpUtil.post('lg/uncollect/$id//json',
         body: {'originId': originId});
   }
+
+  static todo(pageNo) {
+    return HttpUtil.get('lg/todo/v2/list/$pageNo/json');
+  }
 }
