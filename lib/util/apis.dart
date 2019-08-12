@@ -82,4 +82,9 @@ class Apis {
   static todo(pageNo) {
     return HttpUtil.get('lg/todo/v2/list/$pageNo/json');
   }
+
+  static Future todoDelete(id) {
+    return HttpUtil.post('lg/todo/delete/$id//json');
+  }
+
 }

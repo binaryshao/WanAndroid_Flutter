@@ -109,37 +109,17 @@ class _DrawerPageState extends State<DrawerPage> {
       return Container();
     } else {
       return getItem('ic_logout', '退出登录', () {
-        return showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (context) {
-            return AlertDialog(
-              title: Text('退出登录'),
-              content: Text(
-                '确定要退出吗？',
-              ),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text('确定'),
-                  onPressed: () {
-                    Apis.logout().then((result) {
-                      logout();
-                      NavUtil.pop(context);
-                    }).catchError((e) {
-                      HintUtil.toast(context, e.toString());
-                    });
-                  },
-                ),
-                FlatButton(
-                  child: Text('取消'),
-                  onPressed: () {
-                    NavUtil.pop(context);
-                  },
-                ),
-              ],
-            );
-          },
-        );
+        HintUtil.alert(context, '退出登录', '确定要退出吗？', () {
+          Apis.logout().then((result) {
+            logout();
+          }).catchError((e) {
+            HintUtil.toast(context, e.toString());
+          }).whenComplete(() {
+            NavUtil.pop(context);
+          });
+        }, () {
+          NavUtil.pop(context);
+        });
       });
     }
   }

@@ -71,6 +71,10 @@ class RefreshableList extends StatefulWidget {
   animateTo(double offset, Duration duration, Curve curve) {
     _state.animateTo(offset, duration, curve);
   }
+
+  refresh() {
+    _state.getData();
+  }
 }
 
 class _RefreshableListState extends State<RefreshableList>
