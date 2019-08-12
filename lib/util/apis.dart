@@ -87,4 +87,20 @@ class Apis {
     return HttpUtil.post('lg/todo/delete/$id//json');
   }
 
+  static Future todoAdd(title, content, date) {
+    return HttpUtil.post('lg/todo/add/json', body: {
+      'title': title,
+      'content': content,
+      'date': date,
+    });
+  }
+
+  static Future todoUpdate(id, title, content, date, status) {
+    return HttpUtil.post('lg/todo/update/$id/json', body: {
+      'title': title,
+      'content': content,
+      'date': date,
+      'status': status,
+    });
+  }
 }

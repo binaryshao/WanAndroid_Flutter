@@ -7,3 +7,5 @@ class Login {}
 class Logout {}
 
 class SwitchFavorite {}
+
+class Todo {}

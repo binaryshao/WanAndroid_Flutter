@@ -1,16 +1,37 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/util/nav_util.dart';
 import 'package:wanandroid_flutter/widget/refreshable_list.dart';
 import 'package:wanandroid_flutter/util/apis.dart';
 import 'package:wanandroid_flutter/util/hint_uitl.dart';
+import 'package:wanandroid_flutter/view/login/edit_todo_page.dart';
+import 'package:wanandroid_flutter/config/event.dart';
 
-class TodoPage extends StatelessWidget {
-  BuildContext _context;
+class TodoPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _TodoPageState();
+}
+
+class _TodoPageState extends State<TodoPage> {
   RefreshableList list;
+  StreamSubscription todoSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    todoSubscription = eventBus.on<Todo>().listen((event) {
+      list.refresh();
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    todoSubscription.cancel();
+  }
 
   @override
   Widget build(BuildContext context) {
-    _context = context;
     list = RefreshableList([Apis.todo], ['datas'], [''], _buildItem);
     return Scaffold(
       appBar: AppBar(
@@ -19,7 +40,7 @@ class TodoPage extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.add),
             onPressed: () {
-              HintUtil.toast(context, 'to be completed...');
+              NavUtil.navTo(context, EditTodoPage());
             },
           )
         ],
@@ -31,7 +52,7 @@ class TodoPage extends StatelessWidget {
   _buildItem(item, index) {
     return InkWell(
       onTap: () {
-        HintUtil.toast(_context, 'to be edited...');
+        NavUtil.navTo(context, EditTodoPage(item: item));
       },
       child: Container(
         padding: EdgeInsets.all(10),
@@ -52,7 +73,7 @@ class TodoPage extends StatelessWidget {
                     item['status'] == 0 ? "未完成" : "已完成",
                     style: TextStyle(
                         color: item['status'] == 0
-                            ? Theme.of(_context).primaryColor
+                            ? Theme.of(context).primaryColor
                             : Colors.grey),
                   ),
                 ),
@@ -75,22 +96,21 @@ class TodoPage extends StatelessWidget {
                     width: 24,
                     child: IconButton(
                       icon: Icon((Icons.delete_forever)),
-                      color: Theme.of(_context).primaryColor,
+                      color: Theme.of(context).primaryColor,
                       padding: EdgeInsets.all(0),
                       onPressed: () {
                         HintUtil.alert(
-                            _context, '删除任务', '确定要删除任务【${item['title']}】吗？',
-                            () {
+                            context, '删除任务', '确定要删除任务【${item['title']}】吗？', () {
                           Apis.todoDelete(item['id']).then((result) {
-                            HintUtil.toast(_context, '已删除');
+                            HintUtil.toast(context, '已删除');
                             list.refresh();
                           }).catchError((e) {
-                            HintUtil.toast(_context, e.toString());
-                          }).whenComplete((){
-                            NavUtil.pop(_context);
+                            HintUtil.toast(context, e.toString());
+                          }).whenComplete(() {
+                            NavUtil.pop(context);
                           });
                         }, () {
-                          NavUtil.pop(_context);
+                          NavUtil.pop(context);
                         });
                       },
                     ),
