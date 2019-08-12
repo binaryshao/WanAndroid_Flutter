@@ -145,24 +145,21 @@ class _ArticleItemViewState extends State<ArticleItemView> {
                     "${widget.item['superChapterName']}/${widget.item['chapterName']}",
                   ),
                 ),
-                InkWell(
-                  onTap: () {
-                    switchFavorite();
-                  },
-                  child: Container(
-                    height: 24,
-                    child: IconButton(
-                      icon: widget.item['collect'] != null &&
-                              widget.item['collect']
-                          ? Icon(
-                              Icons.star,
-                              color: Colors.redAccent,
-                            )
-                          : Icon(Icons.star_border),
-                      color: Colors.black54,
-                      padding: EdgeInsets.all(0),
-                      onPressed: () {},
-                    ),
+                Container(
+                  height: 24,
+                  child: IconButton(
+                    icon:
+                        widget.item['collect'] != null && widget.item['collect']
+                            ? Icon(
+                                Icons.star,
+                                color: Colors.redAccent,
+                              )
+                            : Icon(Icons.star_border),
+                    color: Colors.black54,
+                    padding: EdgeInsets.all(0),
+                    onPressed: () {
+                      switchFavorite();
+                    },
                   ),
                 ),
               ],
@@ -184,8 +181,8 @@ class _ArticleItemViewState extends State<ArticleItemView> {
               ? Apis.uncollectFromFavorite(
                   widget.item['id'],
                   widget.item['originId'] != null
-                      ? widget.item['originId']
-                      : -1)
+                      ? widget.item['originId'].toString()
+                      : '-1')
               : Apis.uncollect(widget.item['id'])
           : Apis.collect(widget.item['id']);
       future.then((result) {
