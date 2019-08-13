@@ -313,6 +313,7 @@ class _RefreshableListState extends State<RefreshableList>
 
   getList() {
     return ListView.separated(
+      physics: AlwaysScrollableScrollPhysics(),
       controller: _scrollController,
       itemCount: _dataList.length + (isMoreEnabled ? 1 : 0),
       itemBuilder: (context, index) {
