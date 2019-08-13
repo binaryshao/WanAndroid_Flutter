@@ -250,7 +250,7 @@ class _RefreshableListState extends State<RefreshableList>
   }
 
   retry() {
-    if (!widget._requests[0] is List) {
+    if (!(widget._requests[0] is List)) {
       setState(() {
         _status = Status.Loading;
       });
