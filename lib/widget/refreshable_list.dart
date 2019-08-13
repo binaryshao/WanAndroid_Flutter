@@ -45,6 +45,8 @@ class RefreshableList extends StatefulWidget {
   /// 是否显示 FloatingActionButton
   final bool showFloating;
 
+  final List<Type> listenTypes;
+
   RefreshableList(
     this._requests,
     this.dataKeys,
@@ -55,6 +57,7 @@ class RefreshableList extends StatefulWidget {
     this.refreshable = true,
     this.divider,
     this.showFloating = true,
+    this.listenTypes,
   });
 
   _RefreshableListState _state = _RefreshableListState();
@@ -70,10 +73,6 @@ class RefreshableList extends StatefulWidget {
 
   animateTo(double offset, Duration duration, Curve curve) {
     _state.animateTo(offset, duration, curve);
-  }
-
-  refresh() {
-    _state.getData();
   }
 }
 
@@ -91,10 +90,7 @@ class _RefreshableListState extends State<RefreshableList>
   bool isMoreEnabled = true;
   bool scrollUP = false;
   double lastPixels = 0;
-  StreamSubscription loginSubscription;
-  StreamSubscription favoriteSubscription;
-  StreamSubscription todoSubscription;
-  StreamSubscription todoDeleteSubscription;
+  StreamSubscription subscription;
 
   @override
   bool get wantKeepAlive => true;
@@ -102,18 +98,22 @@ class _RefreshableListState extends State<RefreshableList>
   @override
   void initState() {
     super.initState();
-    loginSubscription = eventBus.on<Login>().listen((event) {
-      getData();
-    });
-    favoriteSubscription = eventBus.on<SwitchFavorite>().listen((event) {
-      getData();
-    });
-    todoSubscription =  eventBus.on<Todo>().listen((event) {
-      getData();
-    });
-    todoDeleteSubscription = eventBus.on<TodoDelete>().listen((event) {
-      getData();
-    });
+    if (widget.listenTypes != null && widget.listenTypes.length > 0) {
+      subscription = eventBus.on().listen((event) {
+        for (int i = 0; i < widget.listenTypes.length; i++) {
+          /// type.toString() 示例：TodoDelete
+          /// event.toString() 示例：Instance of 'Todo'
+          var type = widget.listenTypes.elementAt(i);
+          int index = event.toString().indexOf("'");
+          int lastIndex = event.toString().lastIndexOf("'");
+          String eventType = event.toString().substring(index + 1, lastIndex);
+          if (eventType.compareTo(type.toString()) == 0) {
+            getData();
+            break;
+          }
+        }
+      });
+    }
     pageNoUserIndex = widget._requests.length - 1;
     isMoreEnabled = widget._requests[pageNoUserIndex] is Function;
     if (isMoreEnabled) {
@@ -262,10 +262,9 @@ class _RefreshableListState extends State<RefreshableList>
   void dispose() {
     super.dispose();
     _scrollController.dispose();
-    loginSubscription.cancel();
-    favoriteSubscription.cancel();
-    todoSubscription.cancel();
-    todoDeleteSubscription.cancel();
+    if (subscription != null) {
+      subscription.cancel();
+    }
   }
 
   @override

@@ -36,6 +36,7 @@ class _TodoPageState extends State<TodoPage> {
         ['datas'],
         [''],
         _buildItem,
+        listenTypes: [TodoDelete, Todo],
       ),
     );
   }
