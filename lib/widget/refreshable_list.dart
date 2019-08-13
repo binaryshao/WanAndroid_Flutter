@@ -295,6 +295,7 @@ class _RefreshableListState extends State<RefreshableList>
             floatingActionButton: (widget.showFloating && scrollUP)
                 ? FloatingActionButton(
                     onPressed: () {
+                      jumpTo(10);
                       jumpTo(0);
                       setState(() {
                         scrollUP = false;
