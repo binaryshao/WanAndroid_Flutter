@@ -27,7 +27,6 @@ class _EditTodoPageState extends State<EditTodoPage> {
   void initState() {
     super.initState();
     _status = widget.item == null ? 0 : widget.item['status'];
-    print('status:$_status');
   }
 
   @override

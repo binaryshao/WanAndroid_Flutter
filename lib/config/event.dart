@@ -9,3 +9,5 @@ class Logout {}
 class SwitchFavorite {}
 
 class Todo {}
+
+class TodoDelete {}

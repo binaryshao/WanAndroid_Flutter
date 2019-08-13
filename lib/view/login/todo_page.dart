@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/util/nav_util.dart';
 import 'package:wanandroid_flutter/widget/refreshable_list.dart';
@@ -13,26 +12,13 @@ class TodoPage extends StatefulWidget {
 }
 
 class _TodoPageState extends State<TodoPage> {
-  RefreshableList list;
-  StreamSubscription todoSubscription;
-
   @override
   void initState() {
     super.initState();
-    todoSubscription = eventBus.on<Todo>().listen((event) {
-      list.refresh();
-    });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    todoSubscription.cancel();
   }
 
   @override
   Widget build(BuildContext context) {
-    list = RefreshableList([Apis.todo], ['datas'], [''], _buildItem);
     return Scaffold(
       appBar: AppBar(
         title: Text('任务清单'),
@@ -45,7 +31,12 @@ class _TodoPageState extends State<TodoPage> {
           )
         ],
       ),
-      body: list,
+      body: RefreshableList(
+        [Apis.todo],
+        ['datas'],
+        [''],
+        _buildItem,
+      ),
     );
   }
 
@@ -103,7 +94,7 @@ class _TodoPageState extends State<TodoPage> {
                             context, '删除任务', '确定要删除任务【${item['title']}】吗？', () {
                           Apis.todoDelete(item['id']).then((result) {
                             HintUtil.toast(context, '已删除');
-                            list.refresh();
+                            eventBus.fire(TodoDelete());
                           }).catchError((e) {
                             HintUtil.toast(context, e.toString());
                           }).whenComplete(() {

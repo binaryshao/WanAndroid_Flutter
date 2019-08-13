@@ -93,6 +93,8 @@ class _RefreshableListState extends State<RefreshableList>
   double lastPixels = 0;
   StreamSubscription loginSubscription;
   StreamSubscription favoriteSubscription;
+  StreamSubscription todoSubscription;
+  StreamSubscription todoDeleteSubscription;
 
   @override
   bool get wantKeepAlive => true;
@@ -104,6 +106,12 @@ class _RefreshableListState extends State<RefreshableList>
       getData();
     });
     favoriteSubscription = eventBus.on<SwitchFavorite>().listen((event) {
+      getData();
+    });
+    todoSubscription =  eventBus.on<Todo>().listen((event) {
+      getData();
+    });
+    todoDeleteSubscription = eventBus.on<TodoDelete>().listen((event) {
       getData();
     });
     pageNoUserIndex = widget._requests.length - 1;
@@ -256,6 +264,8 @@ class _RefreshableListState extends State<RefreshableList>
     _scrollController.dispose();
     loginSubscription.cancel();
     favoriteSubscription.cancel();
+    todoSubscription.cancel();
+    todoDeleteSubscription.cancel();
   }
 
   @override
