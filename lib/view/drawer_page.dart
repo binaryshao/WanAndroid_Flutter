@@ -9,6 +9,7 @@ import 'package:wanandroid_flutter/util/hint_uitl.dart';
 import 'package:wanandroid_flutter/config/event.dart';
 import 'package:wanandroid_flutter/util/apis.dart';
 import 'package:wanandroid_flutter/view/login/todo_page.dart';
+import 'about_page.dart';
 
 class DrawerPage extends StatefulWidget {
   @override
@@ -86,7 +87,9 @@ class _DrawerPageState extends State<DrawerPage> {
               getItem('ic_todo', '任务清单', () {
                 loginOrDirect(TodoPage());
               }),
-              getItem('ic_about', '关于', () {}),
+              getItem('ic_about', '关于', () {
+                NavUtil.navTo(context, AboutPage());
+              }),
               getLogout(),
             ],
           ),
