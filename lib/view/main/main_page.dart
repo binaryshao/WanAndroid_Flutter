@@ -9,6 +9,7 @@ import 'package:wanandroid_flutter/util/image_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:wanandroid_flutter/view/search_page.dart';
 import 'package:wanandroid_flutter/util/nav_util.dart';
+import 'package:wanandroid_flutter/util/hint_uitl.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -39,6 +40,7 @@ class _MainPageState extends State<MainPage> {
   ];
   List<BottomNavigationBarItem> bottomItemList;
   PageController _pageController;
+  DateTime lastBackTime = DateTime.now();
 
   @override
   void initState() {
@@ -69,41 +71,53 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: Drawer(
-        child: DrawerPage(),
+    return WillPopScope(
+      child: Scaffold(
+        drawer: Drawer(
+          child: DrawerPage(),
+        ),
+        appBar: AppBar(
+          title: Text(_selectedIndex == 0
+              ? "玩安卓"
+              : _bottomItems.elementAt(_selectedIndex).name),
+          automaticallyImplyLeading: true,
+          actions: <Widget>[
+            IconButton(
+              onPressed: () {
+                NavUtil.navTo(context, SearchPage());
+              },
+              icon: Icon(Icons.search),
+            ),
+          ],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: bottomItemList,
+          currentIndex: _selectedIndex,
+          type: BottomNavigationBarType.fixed,
+          fixedColor: Theme.of(context).primaryColor,
+          onTap: (int index) {
+            setState(() {
+              _selectedIndex = index;
+              _pageController.jumpToPage(_selectedIndex);
+            });
+          },
+        ),
+        body: PageView(
+          children: _pages,
+          controller: _pageController,
+          physics: NeverScrollableScrollPhysics(),
+        ),
       ),
-      appBar: AppBar(
-        title: Text(_selectedIndex == 0
-            ? "玩安卓"
-            : _bottomItems.elementAt(_selectedIndex).name),
-        automaticallyImplyLeading: true,
-        actions: <Widget>[
-          IconButton(
-            onPressed: () {
-              NavUtil.navTo(context, SearchPage());
-            },
-            icon: Icon(Icons.search),
-          ),
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: bottomItemList,
-        currentIndex: _selectedIndex,
-        type: BottomNavigationBarType.fixed,
-        fixedColor: Theme.of(context).primaryColor,
-        onTap: (int index) {
-          setState(() {
-            _selectedIndex = index;
-            _pageController.jumpToPage(_selectedIndex);
-          });
-        },
-      ),
-      body: PageView(
-        children: _pages,
-        controller: _pageController,
-        physics: NeverScrollableScrollPhysics(),
-      ),
+      onWillPop: () {
+        DateTime timeNow = DateTime.now();
+        if (timeNow.difference(lastBackTime).inSeconds > 1) {
+          HintUtil.toast(context, '再按一次退出...');
+          lastBackTime = timeNow;
+          return Future.value(false);
+        } else {
+          return Future.value(true);
+        }
+      },
     );
   }
 }
