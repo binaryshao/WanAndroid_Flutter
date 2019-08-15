@@ -17,7 +17,8 @@ Future proceedResponse(url, Future<http.Response> future) {
   return future.then((http.Response response) {
     if (response.statusCode == 200) {
       var jsonResponse = convert.jsonDecode(response.body);
-      if (response.headers.containsKey('set-cookie')) {
+      if (url.contains('user/login') &&
+          response.headers.containsKey('set-cookie')) {
         var cookie = response.headers['set-cookie'];
         HintUtil.log('set-cookie: $cookie');
         saveCookie(cookie);
