@@ -5,6 +5,7 @@ import 'package:wanandroid_flutter/widget/refreshable_list.dart';
 import 'package:wanandroid_flutter/config/tag.dart';
 import 'package:wanandroid_flutter/widget/home_banner.dart';
 import 'package:wanandroid_flutter/util/nav_util.dart';
+import 'package:wanandroid_flutter/config/event.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -43,6 +44,7 @@ class HomePage extends StatelessWidget {
             break;
         }
       },
+      listenTypes: [Login, SwitchFavorite],
     );
   }
 }

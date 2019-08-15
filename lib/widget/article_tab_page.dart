@@ -5,6 +5,7 @@ import 'package:wanandroid_flutter/widget/empty_view.dart';
 import 'package:wanandroid_flutter/widget/refreshable_list.dart';
 import 'package:wanandroid_flutter/widget/article_item_view.dart';
 import 'package:wanandroid_flutter/util/apis.dart';
+import 'package:wanandroid_flutter/config/event.dart';
 
 class ArticleTabPage extends StatefulWidget {
   Future request;
@@ -124,6 +125,7 @@ class _ArticleTabState extends State<ArticleTabPage>{
       [''],
       _buildItem,
       initPageNo: 1,
+      listenTypes: [Login, SwitchFavorite],
     );
   }
 
