@@ -15,6 +15,16 @@
 - 查看、搜索各类项目和文章
 - 网站导航、知识体系、公众号
 
+### 安装包
+[Android](https://github.com/binaryshao/WanAndroid_RN/raw/master/app-release.apk)
+
+### 效果图
+#### Android
+<img src="./screenshot/android.png">
+
+#### iOS
+<img src="./screenshot/ios.png">
+
 ### 用到的开源库
 - http：网络请求
 - flutter_webview_plugin：webview 插件
