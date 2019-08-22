@@ -16,7 +16,7 @@
 - 网站导航、知识体系、公众号
 
 ### 安装包
-[Android](https://github.com/binaryshao/WanAndroid_RN/raw/master/app-release.apk)
+[Android](https://github.com/binaryshao/WanAndroid_Flutter/raw/master/app-release.apk)
 
 ### 效果图
 #### Android
